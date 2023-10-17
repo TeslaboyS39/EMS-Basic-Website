@@ -2,11 +2,6 @@
 const { Model } = require("sequelize");
 module.exports = (sequelize, DataTypes) => {
   class Employee extends Model {
-    /**
-     * Helper method for defining associations.
-     * This method is not a part of Sequelize lifecycle.
-     * The `models/index` file will call this method automatically.
-     */
     static associate(models) {
       // define association here
       Employee.belongsTo(models.User, { foreignKey: "UserId" });
@@ -51,11 +46,39 @@ module.exports = (sequelize, DataTypes) => {
       JobId: DataTypes.INTEGER,
       startContractDate: DataTypes.DATE,
       endContractDate: DataTypes.DATE,
+      employeeStatus: DataTypes.STRING,
     },
     {
       sequelize,
       modelName: "Employee",
     }
   );
+  Employee.beforeCreate((Employee) => {
+    Employee.employeeStatus = "Active";
+  });
+  Employee.beforeSave(async (employee, options) => {
+    const today = new Date();
+    const endContractDate = new Date(employee.endContractDate);
+
+    const timeDiff = endContractDate - today;
+    const daysDiff = Math.ceil(timeDiff / (1000 * 3600 * 24)); // Menghitung selisih dalam hari
+
+    if (daysDiff <= 60) {
+      employee.employeeStatus = "Warning";
+    }
+  });
+  Employee.beforeUpdate(async (employee, options) => {
+    const today = new Date();
+    const endContractDate = new Date(employee.endContractDate);
+
+    const timeDiff = endContractDate - today;
+    const daysDiff = Math.ceil(timeDiff / (1000 * 3600 * 24)); // Menghitung selisih dalam hari
+
+    if (daysDiff <= 60) {
+      employee.employeeStatus = "Warning";
+    } else {
+      employee.employeeStatus = "Active";
+    }
+  });
   return Employee;
 };

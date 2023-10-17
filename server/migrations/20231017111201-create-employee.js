@@ -66,6 +66,9 @@ module.exports = {
       endContractDate: {
         type: Sequelize.DATE,
       },
+      employeeStatus: {
+        type: Sequelize.STRING,
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE,
