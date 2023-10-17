@@ -1,0 +1,47 @@
+[
+  {
+    "fullName": "Yanto Komaladi",
+    "email": "ykomaladi@bni.com",
+    "UserId": 1,
+    "BranchId": 3,
+    "JobId": 5,
+    "startContractDate": "2023-10-16T00:00:00.000Z",
+    "endContractDate": "2024-10-16T00:00:00.000Z"
+  },
+  {
+    "fullName": "Dadang Ruhiyan",
+    "email": "druhiyan@bni.com",
+    "UserId": 1,
+    "BranchId": 2,
+    "JobId": 4,
+    "startContractDate": "2021-10-19T00:00:00.000Z",
+    "endContractDate": "2023-10-19T00:00:00.000Z"
+  },
+  {
+    "fullName": "Asep Sobar",
+    "email": "asobar@bni.com",
+    "UserId": 1,
+    "BranchId": 1,
+    "JobId": 3,
+    "startContractDate": "2020-08-17T00:00:00.000Z",
+    "endContractDate": "2024-08-17T00:00:00.000Z"
+  },
+  {
+    "fullName": "Jajang Mulyana",
+    "email": "jmulyana@bni.com",
+    "UserId": 1,
+    "BranchId": 4,
+    "JobId": 5,
+    "startContractDate": "2023-08-20T00:00:00.000Z",
+    "endContractDate": "2023-10-20T00:00:00.000Z"
+  },
+  {
+    "fullName": "Agus Supriatna",
+    "email": "asupriatna@bni.com",
+    "UserId": 1,
+    "BranchId": 3,
+    "JobId": 4,
+    "startContractDate": "2022-12-14T00:00:00.000Z",
+    "endContractDate": "2024-12-14T00:00:00.000Z"
+  }
+]

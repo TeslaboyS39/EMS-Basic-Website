@@ -1,0 +1,11 @@
+[
+  {
+    "fullName": "admin HR 1",
+    "email": "admin1@bni.com",
+    "password": "abc123",
+    "role": "adminHR",
+    "phoneNumber": "081234567890",
+    "address": "Jl. Administrator No. 88",
+    "npk": "6969420"
+  }
+]
