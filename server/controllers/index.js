@@ -1,5 +1,5 @@
 const { User, Branch, Position, Employee, sequelize } = require("../models");
-const { QueryTypes } = require("sequelize");
+const { QueryTypes, Op } = require("sequelize");
 const { comparePasswords } = require("../helpers/bcrypt");
 const { createToken } = require("../helpers/jwt");
 
@@ -60,8 +60,14 @@ class Controller {
 
   static async showAllEmployees(req, res, next) {
     try {
+      // let { page, filter, search } = req.query;
+
       let employees = await Employee.findAll({
         include: [User, Branch, Position],
+        order: [["id", "ASC"]],
+        // where: {
+        //   fullName: { [Op.iLike]: `%${search}%` },
+        // },
       });
 
       employees = employees.map((employee) => {
@@ -76,6 +82,19 @@ class Controller {
 
         return employee;
       });
+
+      // if (page) {
+      //   const limit = 8;
+      //   const offset = (page - 1) * limit;
+      //   employees = employees.slice(offset, offset + limit);
+      // }
+
+      // if (filter) {
+      //   employees = employees.filter(
+      //     (employee) => employee.BranchId === parseInt(filter)
+      //   );
+      // }
+      // console.log("Filtered Employees:", employees);
 
       res.status(200).json(employees);
     } catch (error) {
