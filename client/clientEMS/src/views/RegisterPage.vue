@@ -30,7 +30,7 @@ export default {
         <h2 class="mb-4">Register</h2>
         <form>
           <div class="mb-3">
-            <input v-model="inputRegister.userName" type="text" class="form-control" placeholder="Fullname" required />
+            <input v-model="inputRegister.fullName" type="text" class="form-control" placeholder="Fullname" required />
           </div>
           <div class="mb-3">
             <input v-model="inputRegister.email" type="email" class="form-control" placeholder="Email" required />

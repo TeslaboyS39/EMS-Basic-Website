@@ -21,11 +21,12 @@ async function authentication(req, res, next) {
     }
 
     // proses penyimpanan data ke req (sementara)
-    // console.log(findUser, '<<< INI USER')
+    console.log(findUser, "<<< INI USER");
     req.user = {
       id: findUser.id,
       role: findUser.role,
       email: findUser.email,
+      fullName: findUser.fullName,
     };
 
     next();

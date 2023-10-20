@@ -1,6 +1,6 @@
 <script>
 export default {
-    props: ['username', 'currentPage', 'navStatus', 'changePage', 'doLogout'],
+    props: ['fullName', 'currentPage', 'navStatus', 'changePage', 'doLogout'],
 }
 </script>
 
@@ -20,7 +20,7 @@ export default {
           <a :class="['nav-link', { 'active': currentPage === 'showbranches' }, navStatus]" @click="changePage('showbranches')" href="#">Branches</a>
           <a :class="['nav-link', { 'active': currentPage === 'showpositions' }, navStatus]" @click="changePage('showpositions')" href="#">Positions</a>
         <div class="nav-item d-flex align-items-center" style="margin-left:85vh">
-          <p class="mb-0 me-3">Hi <span id="username">{{username}}</span>!</p>
+          <p class="mb-0 me-3">Hi <span id="fullName">{{fullName}}</span>!</p>
           <a :class="['nav-link', navStatus]" @click="doLogout()" href="#">Logout</a>
         </div>
       </div>

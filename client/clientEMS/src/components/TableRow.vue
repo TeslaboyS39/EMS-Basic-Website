@@ -26,7 +26,7 @@ export default {
     <td>{{employee.startContractDate}}</td>
     <td>{{employee.endContractDate}}</td>
     <td>
-      <select v-model="employee.status" @change="updateEmployeeStatus(employee)">
+      <select v-model="employee.employeeStatus" @change="updateEmployeeStatus(employee)">
         <option value="null">Select Status</option>
         <option value="Active">Active</option>
         <option value="Warning">Warning</option>

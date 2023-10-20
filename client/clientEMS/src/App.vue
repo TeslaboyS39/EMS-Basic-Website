@@ -19,7 +19,7 @@ export default {
     },
     data() {
     return {
-      username: '',
+      fullName: '',
       currentPage: '',
       navStatus: 'disabled',
       inputRegister:{
@@ -130,7 +130,7 @@ export default {
       try {
         const employeeData = await this.fetchEmployeeById(employeeId);
           this.inputAddEmployee = {
-            id: employeeEmployee.id,
+            id: employeeData.id,
             fullName: employeeData.fullName,
             BranchId: employeeData.BranchId,
             JobId: employeeData.JobId,
@@ -176,7 +176,7 @@ export default {
         localStorage.setItem('access_token', accessToken)
         localStorage.setItem('fullName', fullName)
 
-        this.username = localStorage.getItem('fullName');        
+        this.fullName = localStorage.getItem('fullName');        
         this.fetchDataEmployees()
         this.fetchDataBranches()
         this.fetchDataPositions()
@@ -307,20 +307,20 @@ export default {
       localStorage.removeItem('fullName')
       this.currentPage = "register"
       this.navStatus = 'disabled'
-      this.username = ', welcome to EMS';
+      this.fullName = ', welcome to EMS';
     },
   },  
   created() {
   if (localStorage.access_token) {
     this.currentPage = 'dashboard'
-    this.username = localStorage.fullName
+    this.fullName = localStorage.fullName
     this.navStatus = 'active'
     this.fetchDataEmployees()
     this.fetchDataBranches()
     this.fetchDataPositions()
   } else {
     this.currentPage = 'register'
-    this.username = ', welcome to EMS'      
+    this.fullName = ', welcome to EMS'      
   }
   }
 }
@@ -329,7 +329,7 @@ export default {
 <template>
 <div class="main-container">
   <!-- NAVBAR SECTION -->
-  <Navbar :username="username" :currentPage="currentPage" :navStatus="navStatus" :changePage="changePage" :doLogout="doLogout" />
+  <Navbar :fullName="fullName" :currentPage="currentPage" :navStatus="navStatus" :changePage="changePage" :doLogout="doLogout" />
   <!-- END NAVBAR SECTION -->
 
   <!-- PRE LOGIN SECTION -->
@@ -390,7 +390,7 @@ export default {
   <!-- END BRANCHES SECTION -->
 
   <!-- POSITIONS SECTION -->
-  <PositionsPage v-if="currentPage === 'positions'" :positions="positions" :currentPage="currentPage" />
+  <PositionsPage v-if="currentPage === 'showpositions'" :positions="positions" :currentPage="currentPage" />
   <!-- END POSITIONS SECTION -->
 </div>
 </template>
