@@ -1,15 +1,15 @@
 <script>
 // script disini tidak menggunakan setup(ini baru digunakan untuk composition api)
 import Navbar from "./components/Navbar.vue"
-import DashboardPage from "./components/DashboardPage.vue"
-import EmployeesPage from "./components/EmployeesPage.vue"
-import BranchesPage from "./components/BranchesPage.vue"
-import PositionsPage from "./components/PositionsPage.vue"
+import DashboardPage from "./views/DashboardPage.vue"
+import EmployeesPage from "./views/EmployeesPage.vue"
+import BranchesPage from "./views/BranchesPage.vue"
+import PositionsPage from "./views/PositionsPage.vue"
 import { formatDate } from './helpers/dateFormatter';
-import AddEmployeeForm from "./components/AddEmployeeForm.vue"
-import EditEmployeeForm from "./components/EditEmployeeForm.vue"
-import LoginPage from "./components/LoginPage.vue"
-import RegisterPage from "./components/RegisterPage.vue"
+import AddEmployeeForm from "./views/AddEmployeeForm.vue"
+import EditEmployeeForm from "./views/EditEmployeeForm.vue"
+import LoginPage from "./views/LoginPage.vue"
+import RegisterPage from "./views/RegisterPage.vue"
 // const baseUrl = 'https://client-project-01.fatahillah.shop' // for production
 const baseUrl = 'http://localhost:3000' // for testing use
 
@@ -651,7 +651,6 @@ p {
 }
 
 .branch-add-button {
-  margin-top: 10px;
   margin-left: 35px;
   padding: 10px 20px;
   background-color: #007bff;
@@ -659,7 +658,7 @@ p {
   border: none;
   border-radius: 4px;
   cursor: pointer;
-  margin-bottom: 22.4vh;
+  margin-bottom: 2vh;
 }
 
 /* menu show positions */
@@ -676,7 +675,6 @@ p {
 }
 
 .position-add-button {
-  margin-top: 10px;
   margin-left: 35px;
   padding: 10px 20px;
   background-color: #007bff;
@@ -684,7 +682,7 @@ p {
   border: none;
   border-radius: 4px;
   cursor: pointer;
-  margin-bottom: 22.4vh;
+  margin-bottom: 2vh;
 }
 
 .main-container {
@@ -692,6 +690,8 @@ p {
   background-repeat: no-repeat;
   background-attachment: fixed;
   background-size: cover;
+  min-height: 100vh; 
+  min-width: 100vh;
 }
 
 </style>

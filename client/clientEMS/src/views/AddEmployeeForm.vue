@@ -1,5 +1,5 @@
 <script>
-import ReusableEmployeeForm from './ReusableEmployeeForm.vue';
+import ReusableEmployeeForm from '../components/ReusableEmployeeForm.vue';
 
 export default {
   props: ['branches', 'positions', 'currentPage'],

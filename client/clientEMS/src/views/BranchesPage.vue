@@ -24,7 +24,7 @@ export default {
                 </tr>
             </tbody>
         </table>
-        <button class="btn btn-primary genre-add-button" disabled>Add Branch</button>
+        <button class="btn btn-primary branch-add-button" disabled>Add Branch</button>
         </div>
     </section>
 </template>

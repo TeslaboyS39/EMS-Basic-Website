@@ -1,6 +1,6 @@
 <script>
-import TableRow from "./TableRow.vue";
-import ReusableButton from "./ReusableButton.vue";
+import TableRow from "../components/TableRow.vue";
+import ReusableButton from "../components/ReusableButton.vue";
 
 export default{
   props: ['currentPage', 'employees'],
