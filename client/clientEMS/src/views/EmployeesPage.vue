@@ -24,8 +24,10 @@ export default{
 <template>
   <section v-if="currentPage === 'showemployees'" id="showemployees-section">
     <div class="employee-collection">
-      <h2>Employees Collection</h2>
-      <ReusableButton @click="addEmployee" text="Add Employee" type="button"/>
+      <div class="header-wrapper">
+        <h2 style="color: azure;">Employees Collection</h2>
+        <ReusableButton @click="addEmployee" text="Add Employee" type="button"/>
+      </div>
       
       <table class="table">
           <thead>

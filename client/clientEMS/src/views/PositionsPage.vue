@@ -7,7 +7,10 @@ export default {
 <template>
     <section v-if="currentPage === 'showpositions'" id="showpositions-section">
         <div class="position-collection">
-        <h2>Positions List</h2>
+        <div class="header-wrapper">
+            <h2 style="color: azure;">Positions List</h2>
+            <button class="btn btn-primary position-add-button" disabled>Add Position</button>            
+        </div>
         <table class="table">
             <thead>
                 <tr>
@@ -18,13 +21,12 @@ export default {
             </thead>
             <tbody>
                 <tr v-for="(position, index) in positions" :key="position.id">
-                <td>{{index + 1}}</td>
-                <td>{{position.name}}</td>
-                <td><button class="edit-button">✏️</button></td>
+                <td id="td-row">{{index + 1}}</td>
+                <td id="td-row">{{position.name}}</td>
+                <td id="td-row"><button class="edit-button">✏️</button></td>
                 </tr>
             </tbody>
         </table>
-        <button class="btn btn-primary position-add-button" disabled>Add Position</button>
         </div>
     </section>
 </template>

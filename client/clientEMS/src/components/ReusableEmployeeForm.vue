@@ -2,15 +2,16 @@
 import ReusableButton from './ReusableButton.vue';
 
 export default {
-  props: ['branches', 'currentPage', 'inputAddEmployee', 'fullName', 'buttonText'],
+  props: ['branches', 'positions', 'currentPage', 'inputAddEmployee', 'fullName', 'buttonText'],
   emits: ['editEmployeeForm'],
   components: {
-    ReusableButton,
+    ReusableButton
   },
   data() {
     return {
       inputEmployee: {
         fullName: '',
+        email: '',
         BranchId: '',
         JobId: '',
         startContractDate: '',
@@ -29,9 +30,16 @@ export default {
         console.log(this.inputEmployee);
     }
   },
+  computed: {
+    formatDate() {
+      return 'yyyy-MM-dd'; 
+    }
+  },
   created() {
     if (this.currentPage === 'editemployee') {
       this.inputEmployee = this.inputAddEmployee;
+      this.inputEmployee.startContractDate = new Date(this.inputEmployee.startContractDate).toISOString().split('T')[0];
+      this.inputEmployee.endContractDate = new Date(this.inputEmployee.endContractDate).toISOString().split('T')[0];
     }
     console.log(this.inputEmployee, 'Punya si Reusable');
   }
@@ -61,14 +69,24 @@ export default {
           <option v-for="position in positions" :key="position.id" :value="position.id">{{ position.name }}</option>
         </select>
 
-        <label for="startContractDate">Start Contract Date:</label>
-        <textarea v-model="inputEmployee.startContractDate" id="startContractDate" name="startContractDate" ></textarea>
-        
-        <label for="endContractDate">End Contract Date:</label>
-        <textarea v-model="inputEmployee.endContractDate" id="endContractDate" name="endContractDate" ></textarea>
+        <div class="form-group">
+          <label for="startContractDate">Start Contract Date:</label>
+          <input v-model="inputEmployee.startContractDate" type="date" id="startContractDate" name="startContractDate" />
+        </div>
+
+        <div class="form-group">
+          <label for="endContractDate">End Contract Date:</label>
+          <input v-model="inputEmployee.endContractDate" type="date" id="endContractDate" name="endContractDate" />
+        </div>
         
         <ReusableButton type="submit" :text="buttonText"/>
       </form>
     </div>
   </section>
 </template>
+
+<style>
+.form-group {
+  margin-bottom: 1em; 
+}
+</style>

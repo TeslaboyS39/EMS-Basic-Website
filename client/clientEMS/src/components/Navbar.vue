@@ -9,7 +9,7 @@ export default {
   <div class="container-fluid align-items-center">
     <a class="navbar-brand">
       <img src="../assets//ems.png" alt="Logo" class="logo-img">
-      EMS</a>
+    </a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>

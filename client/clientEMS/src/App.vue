@@ -109,7 +109,7 @@ export default {
       this.currentPage = page;
     },
     async editEmployeeForm(inputEmployee) {
-      console.log(inputEmployee);
+      console.log(inputEmployee, '<<< Positions');
       try {
         const { data } = await axios ({
           method: 'put',
@@ -132,10 +132,11 @@ export default {
           this.inputAddEmployee = {
             id: employeeData.id,
             fullName: employeeData.fullName,
+            email: employeeData.email,
             BranchId: employeeData.BranchId,
             JobId: employeeData.JobId,
-            startContractDate: employeeData.startContractDate,
-            endContractDate: employeeData.endContractDate,
+            startContractDate: new Date(employeeData.startContractDate).toISOString().split('T')[0],
+            endContractDate: new Date(employeeData.endContractDate).toISOString().split('T')[0],
           };
           this.changePage('editemployee') 
       } catch (error) {
@@ -379,6 +380,7 @@ export default {
   <EditEmployeeForm
     v-if="currentPage === 'editemployee'"
     :branches="branches"
+    :positions="positions"
     :inputAddEmployee="inputAddEmployee"
     :currentPage="currentPage"
     @editEmployeeForm="editEmployeeForm" 
@@ -409,14 +411,19 @@ p {
 .navbar-brand {
   font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
   background-color: #535d67;
-  padding: 7px;
+  padding: 3px;
   border-radius: 5px;
 }
 
 .logo-img {
-  height: 30px; 
-  margin-right: 6px; 
+  height: 50px; 
+  margin-right: 5px; 
+  margin-left: 5px;
   border-radius: 5px;
+}
+
+.nav-item {
+  padding-left: 18vh;
 }
 
 /* Register and Login section */
@@ -472,7 +479,8 @@ p {
 }
 /* setelah login nampilin dashboard di homepagenya */
 .dashboard-section {
-  background-color: #dbd4d4;
+  /* background-color: #dbd4d4; */
+  background-color: rgba(219, 212, 212, 0.7);
   border-radius: 8px;
   box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
   padding: 20px;
@@ -503,17 +511,12 @@ p {
 }
 
 .dashboard-item h3 {
-  margin-bottom: 10px;
   font-size: 18px;
 }
 
 .dashboard-item p {
   font-size: 39px;
   font-weight: bold;
-}
-
-#dashboard-section {
-  padding-bottom: 25.7vh;
 }
 
 /* menu showemployees */
@@ -639,7 +642,7 @@ p {
 
 /* menu show branches */
 .table {
-  margin-left: 35px;
+
   margin-top: auto;
   width: 90%;
 }
@@ -654,7 +657,7 @@ p {
   margin-left: 35px;
   padding: 10px 20px;
   background-color: #007bff;
-  color: #fff;
+  color: #dc4040;
   border: none;
   border-radius: 4px;
   cursor: pointer;
@@ -685,13 +688,23 @@ p {
   margin-bottom: 2vh;
 }
 
+#td-row{
+  background-color: rgba(174, 172, 172, 0.8);
+}
+
+.header-wrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items:flex-end;
+  padding-right: 16vh;
+}
+
 .main-container {
-  background-image: url('https://i.pinimg.com/originals/f1/16/fc/f116fc1b93496a90dfaca1fb9a7411ff.jpg');
+  background-image: url('https://wallpaperbat.com/img/704147-website-wallpaper-top-free-website-background.png');
   background-repeat: no-repeat;
   background-attachment: fixed;
   background-size: cover;
   min-height: 100vh; 
   min-width: 100vh;
 }
-
 </style>
