@@ -233,6 +233,32 @@ class Controller {
     }
   }
 
+  static async updateEmployeeStatus(req, res, next) {
+    try {
+      const { id } = req.params;
+      let { employeeStatus } = req.body;
+      const employee = await Employee.findByPk(id);
+
+      if (!employee) {
+        throw { name: "employeeNotFound" };
+      }
+
+      let updatedEmployeeStatus = await Employee.update(
+        { employeeStatus },
+        {
+          where: { id },
+        }
+      );
+
+      res.status(200).json({
+        message: "Employee status updated successfully",
+        updatedEmployeeStatus,
+      });
+    } catch (error) {
+      next(error); // 404 & 403
+    }
+  }
+
   static async checkExpiringContracts(req, res, next) {
     try {
       const query = `

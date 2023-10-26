@@ -8,8 +8,8 @@ export default {
     ReusableEmployeeForm,
   },
   methods: {
-    addEmployeeForm(inputEmployee) {
-      this.$emit('addEmployeeForm', inputEmployee);
+    handleAddEmployee(inputEmployee) {
+      this.$emit('submit-employee', inputEmployee);
     }
   }
 };
@@ -22,6 +22,6 @@ export default {
     title="Add Employee"
     buttonText="Add Employee"
     :currentPage="currentPage"
-    @addEmployeeForm="addEmployeeForm"
+    @addEmployeeForm="handleAddEmployee"
 />
 </template>

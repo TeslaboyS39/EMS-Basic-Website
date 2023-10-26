@@ -22,6 +22,7 @@ router.get("/branches", Controller.showAllBranches);
 router.get("/positions", Controller.showAllPositions);
 
 router.put("/employees/:id", Controller.updateEmployee);
+router.patch("/employees/:id", Controller.updateEmployeeStatus);
 router.delete("/employees/:id", Controller.deleteOneEmployee);
 
 router.get("/check-expiring-contracts", Controller.checkExpiringContracts);

@@ -122,6 +122,11 @@ export default {
         console.log(data);
         this.fetchDataEmployees();
         this.currentPage='showemployees'
+        Swal.fire(
+          'Edit employee success!',
+          'Thank you for edit an employee data in database',
+          'success'
+        );
       } catch (error) {
         console.log(error);
       }
@@ -372,7 +377,7 @@ export default {
     :branches="branches"
     :positions="positions"
     :currentPage="currentPage"
-    @addEmployeeForm="addEmployeeForm" 
+    @submit-employee="addEmployeeForm"
   />
   <!-- END ADD EMPLOYEE FORM SECTION -->
 

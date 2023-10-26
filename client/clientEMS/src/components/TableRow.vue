@@ -40,11 +40,11 @@ export default {
     <td id="td-row">{{ formattedEndContractDate }}</td>
     <td id="td-row">
       <select v-model="employee.employeeStatus" @change="updateEmployeeStatus(employee)">
-        <option value="null">Select Status</option>
-        <option value="Active">Active</option>
-        <option value="Warning">Warning</option>
-        <option value="Resigned/Fired">Resigned/Fired</option>
-      </select>
+      <option value="null">Select Status</option>
+      <option value="Resigned/Fired">Resigned/Fired</option>
+      <option value="Active" :disabled="employee.employeeStatus === 'Active'">Active</option>
+      <option value="Warning" :disabled="employee.employeeStatus === 'Warning'">Warning</option>
+    </select>
     </td>
     <td id="td-row"><button class="edit-button" @click="editEmployee">✏️</button></td>
   </tr>
