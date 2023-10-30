@@ -25,7 +25,7 @@ export default{
   <section v-if="currentPage === 'showemployees'" id="showemployees-section">
     <div class="employee-collection">
       <div class="header-wrapper">
-        <h2 style="color: azure;">Employees Collection</h2>
+        <h2 style="color: azure;">Employees List</h2>
         <ReusableButton @click="addEmployee" text="Add Employee" type="button"/>
       </div>
       
@@ -39,6 +39,8 @@ export default{
               <th class="table-header">Position</th>
               <th class="table-header">Start Contract Date</th>
               <th class="table-header">End Contract Date</th>
+              <th class="table-header">Salary</th>
+              <th class="table-header">Employment Status</th>
               <th class="table-header">Status</th>
               <th class="table-header"></th>
             </tr>
@@ -57,3 +59,9 @@ export default{
     </div>
   </section>
 </template>
+
+<style>
+.table-header {
+  vertical-align: middle;
+}
+</style>

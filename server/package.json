@@ -4,7 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "reset": "npx sequelize-cli db:migrate:undo:all",
+    "migrateseed": "npx sequelize-cli db:migrate",
+    "seed": "npx sequelize-cli db:seed:all",
+    "dev": "node --watch app.js"
   },
   "keywords": [],
   "author": "",

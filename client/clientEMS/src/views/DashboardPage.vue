@@ -1,6 +1,11 @@
 <script>
 export default {
   props: ['employees', 'branches', 'positions', 'currentPage'],
+  computed: {
+    totalActiveEmployees() {
+        return this.employees.filter(employee => employee.employeeStatus !== 'Resigned/Fired').length;
+    }
+  }
 };
 </script>
 
@@ -12,7 +17,7 @@ export default {
             <div class="dashboard-info">
                 <div class="dashboard-item">
                     <h3>Total Employees</h3>
-                    <p>{{employees.length}}</p>
+                    <p>{{totalActiveEmployees}}</p>
                 </div>
                 <div class="dashboard-item">
                     <h3>Total Branches</h3>

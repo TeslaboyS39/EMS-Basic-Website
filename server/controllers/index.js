@@ -131,6 +131,8 @@ class Controller {
         JobId,
         startContractDate,
         endContractDate,
+        salary,
+        employmentStatus,
       } = req.body;
 
       const branch = await Branch.findByPk(BranchId);
@@ -151,6 +153,8 @@ class Controller {
         JobId,
         startContractDate,
         endContractDate,
+        salary,
+        employmentStatus,
       });
 
       res.status(201).json({
@@ -206,6 +210,8 @@ class Controller {
         JobId,
         startContractDate,
         endContractDate,
+        salary,
+        employmentStatus,
       } = req.body;
       const employee = await Employee.findByPk(id);
 
@@ -219,6 +225,8 @@ class Controller {
       employee.JobId = JobId;
       employee.startContractDate = startContractDate;
       employee.endContractDate = endContractDate;
+      employee.salary = salary;
+      employee.employmentStatus = employmentStatus;
 
       await employee.save();
 
@@ -253,6 +261,120 @@ class Controller {
       res.status(200).json({
         message: "Employee status updated successfully",
         updatedEmployeeStatus,
+      });
+    } catch (error) {
+      next(error); // 404 & 403
+    }
+  }
+
+  static async addBranch(req, res, next) {
+    // console.log(req.body);
+    try {
+      const { name } = req.body;
+
+      const newBranch = await Branch.create({
+        name,
+      });
+
+      res.status(201).json({
+        message: `Employee with id ${newBranch.id} has been created`,
+        newBranch,
+      });
+    } catch (error) {
+      console.log(error);
+      next(error);
+    }
+  }
+
+  static async addPosition(req, res, next) {
+    // console.log(req.body);
+    try {
+      const { name } = req.body;
+
+      const newPosition = await Position.create({
+        name,
+      });
+
+      res.status(201).json({
+        message: `Employee with id ${newPosition.id} has been created`,
+        newPosition,
+      });
+    } catch (error) {
+      console.log(error);
+      next(error);
+    }
+  }
+
+  static async deleteOneBranch(req, res, next) {
+    try {
+      await Branch.destroy({ where: { id: req.params.id } });
+
+      res.status(200).json({
+        message: `Branch with id ${req.params.id} deleted succesfully.`,
+      });
+    } catch (error) {
+      console.log(error);
+      next(error);
+    }
+  }
+
+  static async deleteOnePosition(req, res, next) {
+    try {
+      await Position.destroy({ where: { id: req.params.id } });
+
+      res.status(200).json({
+        message: `Position with id ${req.params.id} deleted succesfully.`,
+      });
+    } catch (error) {
+      console.log(error);
+      next(error);
+    }
+  }
+
+  static async editBranch(req, res, next) {
+    try {
+      const { id } = req.params;
+      const { name } = req.body;
+      const branch = await Branch.findByPk(id);
+
+      if (!branch) {
+        throw { name: "branchNotFound" };
+      }
+
+      branch.name = name;
+
+      await branch.save();
+
+      let editedBranch = await Branch.findByPk(id);
+
+      res.status(200).json({
+        message: "Branch edited successfully",
+        editedBranch,
+      });
+    } catch (error) {
+      next(error); // 404 & 403
+    }
+  }
+
+  static async editPosition(req, res, next) {
+    try {
+      const { id } = req.params;
+      const { name } = req.body;
+      const position = await Position.findByPk(id);
+
+      if (!position) {
+        throw { name: "positionNotFound" };
+      }
+
+      position.name = name;
+
+      await position.save();
+
+      let editedPosition = await Position.findByPk(id);
+
+      res.status(200).json({
+        message: "Position edited successfully",
+        editedPosition,
       });
     } catch (error) {
       next(error); // 404 & 403

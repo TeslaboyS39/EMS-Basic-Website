@@ -1,5 +1,6 @@
 <script>
 import { formatDate } from '../helpers/dateFormatter';
+import { formatToRupiah } from '../helpers/rupiahFormatter';
 
 export default {
   props: ['index', 'employee'],
@@ -21,6 +22,9 @@ export default {
     },
     formattedEndContractDate() {
       return formatDate(this.employee.endContractDate);
+    },
+    formattedSalary() {
+        return formatToRupiah(this.employee.salary);
     }
   }
 };
@@ -30,14 +34,13 @@ export default {
   <tr>
     <td id="td-row">{{index + 1}}</td>
     <td id="td-row">{{employee.fullName}}</td>
-    <!-- <td><img :src="employee.imageUrl" alt="Employee Portrait Photo" class="portrait-image"></td> -->
     <td id="td-row">{{employee.email}}</td>
-    <!-- <td>⭐{{movie.rating}}/10</td> -->
-    <!-- <td><a :href="movie.trailerUrl">Watch Trailer</a></td> -->
     <td id="td-row">{{employee.Branch.name}}</td>
     <td id="td-row">{{employee.Position.name}}</td>
     <td id="td-row">{{ formattedStartContractDate }}</td>
     <td id="td-row">{{ formattedEndContractDate }}</td>
+    <td id="td-row">{{ formattedSalary }}</td>
+    <td id="td-row" style="text-align: center;">{{employee.employmentStatus}}</td>
     <td id="td-row">
       <select v-model="employee.employeeStatus" @change="updateEmployeeStatus(employee)">
       <option value="null">Select Status</option>

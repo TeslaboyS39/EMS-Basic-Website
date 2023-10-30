@@ -7,6 +7,8 @@
     "JobId": 5,
     "startContractDate": "2023-10-16T00:00:00.000Z",
     "endContractDate": "2024-10-16T00:00:00.000Z",
+    "salary": 6000000,
+    "employmentStatus": "Full-time",
     "employeeStatus": "Active"
   },
   {
@@ -17,6 +19,8 @@
     "JobId": 4,
     "startContractDate": "2021-10-30T00:00:00.000Z",
     "endContractDate": "2023-10-30T00:00:00.000Z",
+    "salary": 5000000,
+    "employmentStatus": "Contract",
     "employeeStatus": "Warning"
   },
   {
@@ -27,6 +31,8 @@
     "JobId": 3,
     "startContractDate": "2020-08-17T00:00:00.000Z",
     "endContractDate": "2024-08-17T00:00:00.000Z",
+    "salary": 9000000,
+    "employmentStatus": "Full-time",
     "employeeStatus": "Active"
   },
   {
@@ -37,6 +43,8 @@
     "JobId": 5,
     "startContractDate": "2023-08-20T00:00:00.000Z",
     "endContractDate": "2023-10-20T00:00:00.000Z",
+    "salary": 4500000,
+    "employmentStatus": "Internship",
     "employeeStatus": "Warning"
   },
   {
@@ -47,6 +55,8 @@
     "JobId": 4,
     "startContractDate": "2022-12-14T00:00:00.000Z",
     "endContractDate": "2024-12-14T00:00:00.000Z",
+    "salary": 5000000,
+    "employmentStatus": "Probation",
     "employeeStatus": "Active"
   }
 ]

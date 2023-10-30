@@ -7,7 +7,9 @@ import BranchesPage from "./views/BranchesPage.vue"
 import PositionsPage from "./views/PositionsPage.vue"
 import { formatDate } from './helpers/dateFormatter';
 import AddEmployeeForm from "./views/AddEmployeeForm.vue"
+import AddBranchForm from "./views/AddBranchForm.vue"
 import EditEmployeeForm from "./views/EditEmployeeForm.vue"
+import EditBranchForm from "./views/EditBranchForm.vue"
 import LoginPage from "./views/LoginPage.vue"
 import RegisterPage from "./views/RegisterPage.vue"
 // const baseUrl = 'https://client-project-01.fatahillah.shop' // for production
@@ -15,11 +17,12 @@ const baseUrl = 'http://localhost:3000' // for testing use
 
 export default {
     components: {
-      Navbar, DashboardPage, EmployeesPage, BranchesPage, PositionsPage, AddEmployeeForm, EditEmployeeForm, LoginPage, RegisterPage
+      Navbar, DashboardPage, EmployeesPage, BranchesPage, PositionsPage, AddEmployeeForm, AddBranchForm, EditEmployeeForm, EditBranchForm, LoginPage, RegisterPage
     },
     data() {
     return {
       fullName: '',
+      name: '',
       currentPage: '',
       navStatus: 'disabled',
       inputRegister:{
@@ -44,7 +47,12 @@ export default {
         JobId: '',
         startContractDate: '',
         endContractDate: '',
-      }
+        salary: '',
+        employmentStatus: '',
+      },
+      inputAddBranch: {
+        name: '',
+      },
     };
   },
   computed: {
@@ -142,8 +150,45 @@ export default {
             JobId: employeeData.JobId,
             startContractDate: new Date(employeeData.startContractDate).toISOString().split('T')[0],
             endContractDate: new Date(employeeData.endContractDate).toISOString().split('T')[0],
+            salary: employeeData.salary,
+            employmentStatus: employeeData.employmentStatus,
           };
           this.changePage('editemployee') 
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    async editBranchForm(inputBranch) {
+      console.log(inputBranch, '<<< Branch');
+      try {
+        const { data } = await axios ({
+          method: 'put',
+          url: `${baseUrl}/branches/${inputBranch.id}`,
+          headers: {
+            access_token: localStorage.access_token
+          },
+          data: inputBranch
+        })
+        console.log(data);
+        this.fetchDataBranches();
+        this.currentPage='showbranches'
+        Swal.fire(
+          'Edit branch success!',
+          'Thank you for edit an employee data in database',
+          'success'
+        );
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    async editBranch(branchId) {
+      try {
+        const branchData = await this.fetchBranchById(branchId);
+          this.inputAddBranch = {
+            id: branchData.id,
+            name: branchData.name,
+          };
+          this.changePage('editbranch') 
       } catch (error) {
         console.log(error);
       }
@@ -211,12 +256,43 @@ export default {
             position: '',
             startContractDate: '',
             endContractDate: '',
+            salary: '',
+            employmentStatus: ''
           };
           this.fetchDataEmployees();
           this.changePage('showemployees');
           Swal.fire(
                 'Add employee success!',
                 'Thank you for add an employee in database',
+                'success'
+          )
+        }
+      } catch (error) {
+        console.log(error);
+        console.log(error.response.data, '<<<server response');
+      }
+    },
+    async addBranchForm(addBranch) {
+      try {
+        const response = await axios ({
+          method: 'post',
+          url: `${baseUrl}/branches`,
+          data: addBranch,
+          headers: {
+            access_token: localStorage.access_token
+          }
+        })
+
+        if (response.status === 201) {
+          // Buat ngereset kolom inputannya misal dah berhasil ditambahin
+          this.inputAddBranch = {
+            name: '',
+          };
+          this.fetchDataBranches();
+          this.changePage('showbranches');
+          Swal.fire(
+                'Add branch success!',
+                'Thank you for add a branch in database',
                 'success'
           )
         }
@@ -259,6 +335,8 @@ export default {
             JobId: '',
             startContractDate: '',
             endContractDate: '',
+            salary: '',
+            employmentStatus: ''
           }
 
           this.fetchDataEmployees();
@@ -285,7 +363,7 @@ export default {
           method: 'patch',
           url: `${baseUrl}/employees/${employee.id}`,
           data: {
-            status: employee.status
+            employeeStatus: employee.employeeStatus
           },
           headers: {
             access_token: localStorage.access_token,
@@ -306,6 +384,41 @@ export default {
           title: 'Oops...',
           text: 'Forbidden access to update this data status!',
         });
+      }
+    },
+    async editBranch() {
+      try {
+        const response = await axios({
+          method: 'put',
+          url: `${baseUrl}/branches/${this.inputAddBranch.id}`,
+          data: this.inputAddBranch,
+          headers: {
+            access_token: localStorage.access_token,
+          },
+        })
+
+        if (response.status === 200) {
+          this.inputAddBranch = {
+            id: '',
+            name: '',
+          }
+
+          this.fetchDataBranches();
+          this.changePage('showbranches');
+          
+          Swal.fire(
+                'Edit branch success!',
+                'Thank you for edit a branch in database',
+                'success'
+          )
+        }
+      } catch (error) {
+        console.log(error);
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: 'Forbidden access to edit this data!'
+        })
       }
     },
     doLogout() {
@@ -393,8 +506,25 @@ export default {
   <!-- END EDIT EMPLOYEE FORM SECTION -->
   
   <!-- BRANCHES SECTION -->
-  <BranchesPage v-if="currentPage === 'showbranches'" :branches="branches" :currentPage="currentPage" />
+  <BranchesPage v-if="currentPage === 'showbranches'" :branches="branches" :currentPage="currentPage" @addBranch="changePage('addebranch')"/>
   <!-- END BRANCHES SECTION -->
+
+  <!-- ADD BRANCH FORM SECTION -->
+    <AddBranchForm
+    v-if="currentPage === 'addbranch'"
+    :currentPage="currentPage"
+    @submit-branch="addBranchForm"
+  />
+  <!-- END ADD BRANCH FORM SECTION -->
+
+  <!-- EDIT BRANCH FORM SECTION -->
+  <EditBranchForm
+    v-if="currentPage === 'editbranch'"
+    :inputAddEBranch="inputAddBranch"
+    :currentPage="currentPage"
+    @editBranchForm="editBranchForm" 
+  />
+  <!-- END EDIT BRANCH FORM SECTION -->
 
   <!-- POSITIONS SECTION -->
   <PositionsPage v-if="currentPage === 'showpositions'" :positions="positions" :currentPage="currentPage" />
@@ -531,8 +661,12 @@ p {
   width: 90%;
 }
 
+.table-header {
+  text-align: center;
+}
+
 .employee-collection h2 {
-  margin-left: 35px;
+  margin-left: 27px;
   margin-top: 20px;
   margin-bottom: 20px;
 }
@@ -574,6 +708,10 @@ p {
   text-align: center;
 }
 
+#addemployee-section {
+  padding-bottom: 2vh; 
+}
+
 .add-employee-form label {
   display: block;
   margin-bottom: 5px;
@@ -592,7 +730,6 @@ p {
 }
 
 .add-employee-form button {
-  padding: 10px;
   background-color: #007bff;
   color: #fff;
   border: none;
@@ -601,6 +738,50 @@ p {
 }
 
 .add-employee-form input[type="number"] {
+  width: 85vh;
+}
+
+/* form add branch */
+.add-branch-form {
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  margin: 20px auto;
+  max-width: 600px;
+  text-align: center;
+}
+
+#addbranch-section {
+  padding-bottom: 2vh; 
+}
+
+.add-branch-form label {
+  display: block;
+  margin-bottom: 5px;
+  text-align: left;
+}
+
+.add-branch-form input[type="text"],
+.add-branch-form input[type="url"],
+.add-branch-form select,
+.add-branch-form textarea {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.add-branch-form button {
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.add-branch-form input[type="number"] {
   width: 85vh;
 }
 
@@ -653,7 +834,7 @@ p {
 }
 
 .branch-collection h2 {
-  margin-left: 35px;
+  margin-left: 27px;
   margin-top: 20px;
   margin-bottom: 20px;
 }
@@ -671,13 +852,13 @@ p {
 
 /* menu show positions */
 .table {
-  margin-left: 35px;
+  margin-left: 27px;
   margin-top: auto;
-  width: 90%;
+  width: 97%;
 }
 
 .position-collection h2 {
-  margin-left: 35px;
+  margin-left: 27px;
   margin-top: 20px;
   margin-bottom: 20px;
 }
@@ -701,7 +882,7 @@ p {
   display: flex;
   justify-content: space-between;
   align-items:flex-end;
-  padding-right: 16vh;
+  padding-right: 5.5vh;
 }
 
 .main-container {

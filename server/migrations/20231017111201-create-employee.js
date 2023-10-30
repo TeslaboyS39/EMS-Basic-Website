@@ -66,6 +66,12 @@ module.exports = {
       endContractDate: {
         type: Sequelize.DATE,
       },
+      salary: {
+        type: Sequelize.INTEGER,
+      },
+      employmentStatus: {
+        type: Sequelize.STRING,
+      },
       employeeStatus: {
         type: Sequelize.STRING,
       },

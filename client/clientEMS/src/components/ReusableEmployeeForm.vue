@@ -26,7 +26,7 @@ export default {
         } else if (this.currentPage === 'addemployee'){
           this.$emit('addEmployeeForm', this.inputEmployee);          
         }
-        // Buat ngirim event dgn data movie yg diisi sama pengguna
+        // Buat ngirim event dgn data employee yg diisi sama pengguna
         console.log(this.inputEmployee);
     }
   },
@@ -78,6 +78,12 @@ export default {
           <label for="endContractDate">End Contract Date:</label>
           <input v-model="inputEmployee.endContractDate" type="date" id="endContractDate" name="endContractDate" />
         </div>
+
+        <label for="salary">Salary (IDR):</label>
+        <input v-model="inputEmployee.salary" type="number" id="salary" name="salary" />
+
+        <label for="employmentStatus">Employment Status:</label>
+        <input v-model="inputEmployee.employmentStatus" type="text" id="employmentStatus" name="employmentStatus" />
         
         <ReusableButton type="submit" :text="buttonText"/>
       </form>
@@ -86,7 +92,7 @@ export default {
 </template>
 
 <style>
-.form-group {
-  margin-bottom: 1em; 
+#salary{
+  margin-bottom: 1em;
 }
 </style>

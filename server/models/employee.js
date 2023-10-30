@@ -46,6 +46,8 @@ module.exports = (sequelize, DataTypes) => {
       JobId: DataTypes.INTEGER,
       startContractDate: DataTypes.DATE,
       endContractDate: DataTypes.DATE,
+      salary: DataTypes.INTEGER,
+      employmentStatus: DataTypes.STRING,
       employeeStatus: DataTypes.STRING,
     },
     {
@@ -74,10 +76,12 @@ module.exports = (sequelize, DataTypes) => {
     const timeDiff = endContractDate - today;
     const daysDiff = Math.ceil(timeDiff / (1000 * 3600 * 24)); // Menghitung selisih dalam hari
 
-    if (daysDiff <= 60) {
-      employee.employeeStatus = "Warning";
-    } else {
-      employee.employeeStatus = "Active";
+    if (employee.employeeStatus !== "Resigned/Fired") {
+      if (daysDiff <= 60) {
+        employee.employeeStatus = "Warning";
+      } else {
+        employee.employeeStatus = "Active";
+      }
     }
   });
   return Employee;
