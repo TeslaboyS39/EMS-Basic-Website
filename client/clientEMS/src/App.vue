@@ -506,7 +506,12 @@ export default {
   <!-- END EDIT EMPLOYEE FORM SECTION -->
   
   <!-- BRANCHES SECTION -->
-  <BranchesPage v-if="currentPage === 'showbranches'" :branches="branches" :currentPage="currentPage" @addBranch="changePage('addebranch')"/>
+  <BranchesPage 
+    v-if="currentPage === 'showbranches'" 
+    :branches="branches" 
+    :currentPage="currentPage" 
+    @addBranch="changePage('addbranch')"
+  />
   <!-- END BRANCHES SECTION -->
 
   <!-- ADD BRANCH FORM SECTION -->

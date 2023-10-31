@@ -10,6 +10,11 @@ export default {
   methods: {
     handleAddBranch(inputBranch) {
       this.$emit('submit-branch', inputBranch);
+    },
+    handleInputBranch(){
+      if (this.currentPage === 'addbranch'){
+        this.$emit('addBranchForm', this.inputBranch);          
+      }
     }
   }
 };

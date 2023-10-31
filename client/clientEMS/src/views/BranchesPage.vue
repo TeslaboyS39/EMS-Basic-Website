@@ -1,12 +1,13 @@
 <script>
 import ReusableButton from "../components/ReusableButton.vue";
 export default {
-   props: ['currentPage', 'branches'],
-   components: {
+  props: ['currentPage', 'branches'],
+  components: {
     ReusableButton
   }, 
   methods: {
     addBranch() {
+        console.log('Add Branch button clicked');
         this.$emit('addBranch');
     },
     editBranch(branchId) {
@@ -32,7 +33,12 @@ export default {
                 </tr>
             </thead>
             <tbody>
-                <tr v-for="(branch, index) in branches" :key="branch.id">
+                <tr 
+                    v-for="(branch, index) in branches" 
+                    :key="branch.id"
+                    :index="index"
+                    :branch="branch"
+                >
                 <td id="td-row" style="text-align: center;">{{index + 1}}</td>
                 <td id="td-row">{{branch.name}}</td>
                 <td id="td-row"><button class="edit-button">✏️</button></td>
