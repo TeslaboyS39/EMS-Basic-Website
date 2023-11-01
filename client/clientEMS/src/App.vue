@@ -5,11 +5,13 @@ import DashboardPage from "./views/DashboardPage.vue"
 import EmployeesPage from "./views/EmployeesPage.vue"
 import BranchesPage from "./views/BranchesPage.vue"
 import PositionsPage from "./views/PositionsPage.vue"
-import { formatDate } from './helpers/dateFormatter';
+import { formatDate } from './helpers/dateFormatter'
 import AddEmployeeForm from "./views/AddEmployeeForm.vue"
 import AddBranchForm from "./views/AddBranchForm.vue"
+import AddPositionForm from "./views/AddPositionForm.vue"
 import EditEmployeeForm from "./views/EditEmployeeForm.vue"
 import EditBranchForm from "./views/EditBranchForm.vue"
+import EditPositionForm from "./views/EditPositionForm.vue"
 import LoginPage from "./views/LoginPage.vue"
 import RegisterPage from "./views/RegisterPage.vue"
 // const baseUrl = 'https://client-project-01.fatahillah.shop' // for production
@@ -17,7 +19,7 @@ const baseUrl = 'http://localhost:3000' // for testing use
 
 export default {
     components: {
-      Navbar, DashboardPage, EmployeesPage, BranchesPage, PositionsPage, AddEmployeeForm, AddBranchForm, EditEmployeeForm, EditBranchForm, LoginPage, RegisterPage
+      Navbar, DashboardPage, EmployeesPage, BranchesPage, PositionsPage, AddEmployeeForm, AddBranchForm, AddPositionForm, EditEmployeeForm, EditBranchForm, EditPositionForm, LoginPage, RegisterPage
     },
     data() {
     return {
@@ -51,6 +53,9 @@ export default {
         employmentStatus: '',
       },
       inputAddBranch: {
+        name: '',
+      },
+      inputAddPosition: {
         name: '',
       },
     };
@@ -193,6 +198,41 @@ export default {
         console.log(error);
       }
     },
+    async editPositionForm(inputPosition) {
+      console.log(inputPosition, '<<< Position');
+      try {
+        const { data } = await axios ({
+          method: 'put',
+          url: `${baseUrl}/positions/${inputPosition.id}`,
+          headers: {
+            access_token: localStorage.access_token
+          },
+          data: inputPosition
+        })
+        console.log(data);
+        this.fetchDataPositions();
+        this.currentPage='showpositions'
+        Swal.fire(
+          'Edit position success!',
+          'Thank you for edit a position data in database',
+          'success'
+        );
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    async editPosition(positionId) {
+      try {
+        const positionData = await this.fetchPositionById(positionId);
+          this.inputAddPosition = {
+            id: positionData.id,
+            name: positionData.name,
+          };
+          this.changePage('editposition') 
+      } catch (error) {
+        console.log(error);
+      }
+    },
     async doRegister(value) {
       try {
         const response = await axios({
@@ -293,6 +333,35 @@ export default {
           Swal.fire(
                 'Add branch success!',
                 'Thank you for add a branch in database',
+                'success'
+          )
+        }
+      } catch (error) {
+        console.log(error);
+        console.log(error.response.data, '<<<server response');
+      }
+    },
+    async addPositionForm(addPosition) {
+      try {
+        const response = await axios ({
+          method: 'post',
+          url: `${baseUrl}/positions`,
+          data: addPosition,
+          headers: {
+            access_token: localStorage.access_token
+          }
+        })
+
+        if (response.status === 201) {
+          // Buat ngereset kolom inputannya misal dah berhasil ditambahin
+          this.inputAddPosition = {
+            name: '',
+          };
+          this.fetchDataPositions();
+          this.changePage('showpositions');
+          Swal.fire(
+                'Add position success!',
+                'Thank you for add a position in database',
                 'success'
           )
         }
@@ -421,6 +490,41 @@ export default {
         })
       }
     },
+    async editPosition() {
+      try {
+        const response = await axios({
+          method: 'put',
+          url: `${baseUrl}/positions/${this.inputAddPosition.id}`,
+          data: this.inputAddPosition,
+          headers: {
+            access_token: localStorage.access_token,
+          },
+        })
+
+        if (response.status === 200) {
+          this.inputAddPosition = {
+            id: '',
+            name: '',
+          }
+
+          this.fetchDataPositions();
+          this.changePage('showpositions');
+          
+          Swal.fire(
+                'Edit position success!',
+                'Thank you for edit a position in database',
+                'success'
+          )
+        }
+      } catch (error) {
+        console.log(error);
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: 'Forbidden access to edit this data!'
+        })
+      }
+    },
     doLogout() {
       localStorage.removeItem('access_token')
       localStorage.removeItem('fullName')
@@ -525,15 +629,37 @@ export default {
   <!-- EDIT BRANCH FORM SECTION -->
   <EditBranchForm
     v-if="currentPage === 'editbranch'"
-    :inputAddEBranch="inputAddBranch"
+    :inputAddBranch="inputAddBranch"
     :currentPage="currentPage"
     @editBranchForm="editBranchForm" 
   />
   <!-- END EDIT BRANCH FORM SECTION -->
 
   <!-- POSITIONS SECTION -->
-  <PositionsPage v-if="currentPage === 'showpositions'" :positions="positions" :currentPage="currentPage" />
+  <PositionsPage 
+    v-if="currentPage === 'showpositions'" 
+    :positions="positions" 
+    :currentPage="currentPage" 
+    @addPosition="changePage('addposition')"
+  />
   <!-- END POSITIONS SECTION -->
+
+   <!-- ADD POSITION FORM SECTION -->
+   <AddPositionForm
+    v-if="currentPage === 'addposition'"
+    :currentPage="currentPage"
+    @submit-position="addPositionForm"
+  />
+  <!-- END ADD POSITION FORM SECTION -->
+
+  <!-- EDIT POSITION FORM SECTION -->
+  <EditPositionForm
+    v-if="currentPage === 'editposition'"
+    :inputAddPosition="inputAddPosition"
+    :currentPage="currentPage"
+    @editPositionForm="editPositionForm" 
+  />
+  <!-- END EDIT POSITION FORM SECTION -->
 </div>
 </template>
 
@@ -877,6 +1003,50 @@ p {
   border-radius: 4px;
   cursor: pointer;
   margin-bottom: 2vh;
+}
+
+/* form add position */
+.add-position-form {
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  margin: 20px auto;
+  max-width: 600px;
+  text-align: center;
+}
+
+#addposition-section {
+  padding-bottom: 2vh; 
+}
+
+.add-position-form label {
+  display: block;
+  margin-bottom: 5px;
+  text-align: left;
+}
+
+.add-position-form input[type="text"],
+.add-position-form input[type="url"],
+.add-position-form select,
+.add-position-form textarea {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.add-position-form button {
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.add-position-form input[type="number"] {
+  width: 85vh;
 }
 
 #td-row{
