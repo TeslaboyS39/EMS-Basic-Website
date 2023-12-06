@@ -1,11 +1,28 @@
 <script>
 import TableRow from "../components/TableRow.vue";
 import ReusableButton from "../components/ReusableButton.vue";
+import Pagination from "../components/Pagination.vue";
 
 export default{
   props: ['currentPage', 'employees'],
   components: {
-    TableRow,ReusableButton
+    TableRow,ReusableButton, Pagination
+  },
+  data() {
+    return {
+      currentPageNumber: 1,
+      employeesPerPage: 7,
+    };
+  },
+  computed: {
+    slicedEmployees() {
+      const start = (this.currentPageNumber - 1) * this.employeesPerPage;
+      const end = start + this.employeesPerPage;
+      return this.employees.slice(start, end);
+    },
+    totalPages() {
+      return Math.ceil(this.employees.length / this.employeesPerPage);
+    }
   },
   methods: {
     editEmployee(employeeId) {
@@ -16,6 +33,12 @@ export default{
     },
     addEmployee() {
         this.$emit('addEmployee');
+    },
+    handlePageChange(page) {
+      this.currentPageNumber = page;
+    },
+    getRealIndex(indexOnPage) {
+      return (this.currentPageNumber - 1) * this.employeesPerPage + indexOnPage;
     }    
   }
 };
@@ -47,15 +70,20 @@ export default{
           </thead>
           <tbody>
             <table-row
-                v-for="(employee, index) in employees"
+                v-for="(employee, index) in slicedEmployees"
                 :key="employee.id"
-                :index="index"
+                :index="getRealIndex(index)"
                 :employee="employee"
                 @editEmployee="editEmployee"
                 @update-employee-status="updateEmployeeStatus"
             />
           </tbody>
       </table>
+      <pagination
+        :currentPage="currentPageNumber"
+        :totalPages="totalPages"
+        @pageChange="handlePageChange"
+      />
     </div>
   </section>
 </template>
@@ -64,4 +92,9 @@ export default{
 .table-header {
   vertical-align: middle;
 }
+
+.table th {
+  white-space: nowrap;  /* agar kontennya tidak memisahkan baris jika terlalu panjang */
+}
+
 </style>

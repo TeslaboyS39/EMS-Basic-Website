@@ -1162,8 +1162,53 @@ p {
 .delete-button {
   background-color: transparent; /* Warna merah */
   color: white;
+  margin-left: 5vh;
   border: none;
   padding: 5px;
   cursor: pointer;
+}
+
+.table-wrapper {
+  max-height: calc(70vh - 5px); 
+  overflow-y: auto;
+}
+
+.table thead {
+  position: sticky;
+  top: 0;
+  background-color: #fff; 
+  z-index: 1; 
+}
+
+.table-wrapper::-webkit-scrollbar {
+  width: 10px;
+}
+
+.table-wrapper::-webkit-scrollbar-thumb {
+  background-color: #888;
+  border-radius: 5px;
+}
+
+.table-wrapper::-webkit-scrollbar-track {
+  background-color: #eee;
+  border-radius: 5px;
+}
+
+.edit-button,
+.delete-button {
+  padding: 6px 10px;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  transition: transform 0.3s ease-in-out;
+}
+
+.edit-button:hover,
+.delete-button:hover {
+  transform: scale(1.1); 
+}
+
+.delete-button:hover {
+  color: #ff0000; 
 }
 </style>

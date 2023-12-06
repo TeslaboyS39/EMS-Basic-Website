@@ -29,30 +29,32 @@ export default {
             <h2 style="color: azure;">Positions List</h2>
             <ReusableButton @click="addPosition" text="Add Position" type="button"/>            
         </div>
-        <table class="table">
-            <thead>
-                <tr>
-                    <th class="table-header" style="width: 9%;">#</th>
-                    <th class="table-header" style="text-align:left">Name</th>
-                    <th class="table-header" style="width: 20.55%;"></th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr 
-                    v-for="(position, index) in positions" 
-                    :key="position.id"
-                    :index="index"
-                    :position="position"
-                >
-                <td id="td-row" style="text-align: center;">{{index + 1}}</td>
-                <td id="td-row">{{position.name}}</td>
-                <td id="td-row">
-                    <button v-if="position" class="edit-button" @click="editPosition(position.id)">✏️</button>
-                    <button class="delete-button" @click="deletePosition(position.id)">❌</button>
-                </td>
-                </tr>
-            </tbody>
-        </table>
+        <div class="table-wrapper">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th class="table-header" style="width: 9%;">#</th>
+                        <th class="table-header" style="text-align:left">Name</th>
+                        <th class="table-header" style="width: 20.55%;"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr 
+                        v-for="(position, index) in positions" 
+                        :key="position.id"
+                        :index="index"
+                        :position="position"
+                    >
+                    <td id="td-row" style="text-align: center;">{{index + 1}}</td>
+                    <td id="td-row">{{position.name}}</td>
+                    <td id="td-row">
+                        <button v-if="position" class="edit-button" @click="editPosition(position.id)">✏️</button>
+                        <button class="delete-button" @click="deletePosition(position.id)">❌</button>
+                    </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
         </div>
     </section>
 </template>
