@@ -14,6 +14,10 @@ export default {
         console.log('Edit Position button clicked for position ID:', positionId);
         this.$emit('editPosition', positionId);
     },
+    deletePosition(positionId) {
+        console.log('Delete Position button clicked', positionId);
+        this.$emit('delete-position', positionId)
+    },
   }
 }
 </script>
@@ -44,6 +48,7 @@ export default {
                 <td id="td-row">{{position.name}}</td>
                 <td id="td-row">
                     <button v-if="position" class="edit-button" @click="editPosition(position.id)">✏️</button>
+                    <button class="delete-button" @click="deletePosition(position.id)">❌</button>
                 </td>
                 </tr>
             </tbody>

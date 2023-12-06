@@ -470,6 +470,60 @@ export default {
         console.log(error.response.data, '<<<server response');
       }
     },
+    async deleteBranchById(branchId) {
+      try {
+        const response = await axios({
+          method: 'delete',
+          url: `${baseUrl}/branches/${branchId}`,
+          headers: {
+            access_token: localStorage.access_token,
+          },
+        });
+
+        if (response.status === 200) {
+          this.fetchDataBranches();
+          Swal.fire(
+            'Delete branch success!',
+            'The branch has been deleted from the database',
+            'success'
+          );
+        }
+      } catch (error) {
+        console.error(error);
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: 'Forbidden access to delete this branch!',
+        });
+      }
+    },
+    async deletePositionById(positionId) {
+      try {
+        const response = await axios({
+          method: 'delete',
+          url: `${baseUrl}/positions/${positionId}`,
+          headers: {
+            access_token: localStorage.access_token,
+          },
+        });
+
+        if (response.status === 200) {
+          this.fetchDataPositions();
+          Swal.fire(
+            'Delete position success!',
+            'The position has been deleted from the database',
+            'success'
+          );
+        }
+      } catch (error) {
+        console.error(error);
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: 'Forbidden access to delete this position!',
+        });
+      }
+    },
     async fetchEmployeeById(employeeId) {
       try {
         const { data } = await axios({
@@ -644,8 +698,10 @@ export default {
     v-if="currentPage === 'showbranches'" 
     :branches="branches" 
     :currentPage="currentPage" 
+    :deleteBranchById="deleteBranchById"
     @addBranch="changePage('addbranch')"
     @editBranch="editBranch"
+    @delete-branch="deleteBranchById"
   />
   <!-- END BRANCHES SECTION -->
 
@@ -671,8 +727,10 @@ export default {
     v-if="currentPage === 'showpositions'" 
     :positions="positions" 
     :currentPage="currentPage" 
+    :deletePositionById="deletePositionById"
     @addPosition="changePage('addposition')"
     @editPosition="editPosition"
+    @delete-position="deletePositionById"
   />
   <!-- END POSITIONS SECTION -->
 
@@ -1099,5 +1157,13 @@ p {
   background-size: cover;
   min-height: 100vh; 
   min-width: 100vh;
+}
+
+.delete-button {
+  background-color: transparent; /* Warna merah */
+  color: white;
+  border: none;
+  padding: 5px;
+  cursor: pointer;
 }
 </style>

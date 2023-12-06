@@ -13,7 +13,11 @@ export default {
         addBranch() {
             console.log('Add Branch button clicked');
             this.$emit('addBranch');
-        }
+        },
+        deleteBranch(branchId) {            
+            console.log('Delete Branch button clicked', branchId);
+            this.$emit('delete-branch', branchId)
+        },
     }
 }
 </script>
@@ -39,6 +43,7 @@ export default {
                     <td id="td-row">{{ branch.name }}</td>
                     <td id="td-row">
                         <button v-if="branch" class="edit-button" @click="editBranch(branch.id)">✏️</button>
+                        <button class="delete-button" @click="deleteBranch(branch.id)">❌</button>
                     </td>
                     </tr>
                 </tbody>
