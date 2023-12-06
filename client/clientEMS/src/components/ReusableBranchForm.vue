@@ -2,7 +2,7 @@
 import ReusableButton from './ReusableButton.vue';
 
 export default {
-  props: ['currentPage', 'inputAddBranch', 'fullName', 'name', 'buttonText'],
+  props: ['currentPage', 'inputAddBranch', 'name', 'buttonText'],
   emits: ['editBranchForm'],
   components: {
     ReusableButton

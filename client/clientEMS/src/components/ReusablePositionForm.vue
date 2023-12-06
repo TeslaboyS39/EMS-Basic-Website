@@ -2,7 +2,7 @@
 import ReusableButton from './ReusableButton.vue';
 
 export default {
-  props: ['currentPage', 'inputAddPosition', 'fullName', 'name', 'buttonText'],
+  props: ['currentPage', 'inputAddPosition', 'name', 'buttonText'],
   emits: ['editPositionForm'],
   components: {
     ReusableButton

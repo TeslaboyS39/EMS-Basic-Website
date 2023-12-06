@@ -5,7 +5,7 @@ import DashboardPage from "./views/DashboardPage.vue"
 import EmployeesPage from "./views/EmployeesPage.vue"
 import BranchesPage from "./views/BranchesPage.vue"
 import PositionsPage from "./views/PositionsPage.vue"
-import { formatDate } from './helpers/dateFormatter'
+import { formatDate } from "./helpers/dateFormatter"
 import AddEmployeeForm from "./views/AddEmployeeForm.vue"
 import AddBranchForm from "./views/AddBranchForm.vue"
 import AddPositionForm from "./views/AddPositionForm.vue"
@@ -163,6 +163,106 @@ export default {
         console.log(error);
       }
     },
+    async fetchBranchById(branchId) {
+      try {
+        const { data } = await axios({
+          method: 'get',
+          url: `${baseUrl}/branches/${branchId}`,
+          headers: {
+            access_token: localStorage.access_token,
+          },
+        })
+        console.log("Fetched branch by ID:", data);
+        return data
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    async fetchPositionById(positionId) {
+      try {
+        const { data } = await axios({
+          method: 'get',
+          url: `${baseUrl}/positions/${positionId}`,
+          headers: {
+            access_token: localStorage.access_token,
+          },
+        })
+        console.log("Fetched position by ID:", data);
+        return data
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    async updateBranch() {
+      try {
+        const response = await axios({
+          method: 'put',
+          url: `${baseUrl}/branches/${this.inputAddBranch.id}`,
+          data: this.inputAddBranch,
+          headers: {
+            access_token: localStorage.access_token,
+          },
+        })
+
+        if (response.status === 200) {
+          this.inputAddBranch = {
+            id: '',
+            name: '',
+          }
+
+          this.fetchDataBranches();
+          this.changePage('showbranches');
+          
+          Swal.fire(
+                'Update branch success!',
+                'Thank you for update a branch in database',
+                'success'
+          )
+        }
+      } catch (error) {
+        console.log(error);
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: 'Forbidden access to update this data!'
+        })
+      }
+    },
+    async updatePosition() {
+      try {
+        const response = await axios({
+          method: 'put',
+          url: `${baseUrl}/positions/${this.inputAddPosition.id}`,
+          data: this.inputAddPosition,
+          headers: {
+            access_token: localStorage.access_token,
+          },
+        })
+
+        if (response.status === 200) {
+          this.inputAddPosition = {
+            id: '',
+            name: '',
+          }
+
+          this.fetchDataPositions();
+          this.changePage('showpositions');
+          
+          Swal.fire(
+                'Update position success!',
+                'Thank you for update a position in database',
+                'success'
+          )
+        }
+      } catch (error) {
+        console.log(error);
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: 'Forbidden access to update this data!'
+        })
+      }
+    },
     async editBranchForm(inputBranch) {
       console.log(inputBranch, '<<< Branch');
       try {
@@ -195,7 +295,7 @@ export default {
           };
           this.changePage('editbranch') 
       } catch (error) {
-        console.log(error);
+        console.error(error);
       }
     },
     async editPositionForm(inputPosition) {
@@ -454,77 +554,7 @@ export default {
           text: 'Forbidden access to update this data status!',
         });
       }
-    },
-    async editBranch() {
-      try {
-        const response = await axios({
-          method: 'put',
-          url: `${baseUrl}/branches/${this.inputAddBranch.id}`,
-          data: this.inputAddBranch,
-          headers: {
-            access_token: localStorage.access_token,
-          },
-        })
-
-        if (response.status === 200) {
-          this.inputAddBranch = {
-            id: '',
-            name: '',
-          }
-
-          this.fetchDataBranches();
-          this.changePage('showbranches');
-          
-          Swal.fire(
-                'Edit branch success!',
-                'Thank you for edit a branch in database',
-                'success'
-          )
-        }
-      } catch (error) {
-        console.log(error);
-        Swal.fire({
-          icon: 'error',
-          title: 'Oops...',
-          text: 'Forbidden access to edit this data!'
-        })
-      }
-    },
-    async editPosition() {
-      try {
-        const response = await axios({
-          method: 'put',
-          url: `${baseUrl}/positions/${this.inputAddPosition.id}`,
-          data: this.inputAddPosition,
-          headers: {
-            access_token: localStorage.access_token,
-          },
-        })
-
-        if (response.status === 200) {
-          this.inputAddPosition = {
-            id: '',
-            name: '',
-          }
-
-          this.fetchDataPositions();
-          this.changePage('showpositions');
-          
-          Swal.fire(
-                'Edit position success!',
-                'Thank you for edit a position in database',
-                'success'
-          )
-        }
-      } catch (error) {
-        console.log(error);
-        Swal.fire({
-          icon: 'error',
-          title: 'Oops...',
-          text: 'Forbidden access to edit this data!'
-        })
-      }
-    },
+    },    
     doLogout() {
       localStorage.removeItem('access_token')
       localStorage.removeItem('fullName')
@@ -615,6 +645,7 @@ export default {
     :branches="branches" 
     :currentPage="currentPage" 
     @addBranch="changePage('addbranch')"
+    @editBranch="editBranch"
   />
   <!-- END BRANCHES SECTION -->
 
@@ -641,6 +672,7 @@ export default {
     :positions="positions" 
     :currentPage="currentPage" 
     @addPosition="changePage('addposition')"
+    @editPosition="editPosition"
   />
   <!-- END POSITIONS SECTION -->
 

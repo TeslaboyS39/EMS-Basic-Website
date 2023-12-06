@@ -11,6 +11,7 @@ export default {
         this.$emit('addPosition');
     },
     editPosition(positionId) {
+        console.log('Edit Position button clicked for position ID:', positionId);
         this.$emit('editPosition', positionId);
     },
   }
@@ -27,9 +28,9 @@ export default {
         <table class="table">
             <thead>
                 <tr>
-                    <th class="table-header" style="text-align: center;">#</th>
-                    <th class="table-header" style="text-align: left;">Name</th>
-                    <th class="table-header"></th>
+                    <th class="table-header" style="width: 9%;">#</th>
+                    <th class="table-header" style="text-align:left">Name</th>
+                    <th class="table-header" style="width: 20.55%;"></th>
                 </tr>
             </thead>
             <tbody>
@@ -41,7 +42,9 @@ export default {
                 >
                 <td id="td-row" style="text-align: center;">{{index + 1}}</td>
                 <td id="td-row">{{position.name}}</td>
-                <td id="td-row"><button class="edit-button">✏️</button></td>
+                <td id="td-row">
+                    <button v-if="position" class="edit-button" @click="editPosition(position.id)">✏️</button>
+                </td>
                 </tr>
             </tbody>
         </table>

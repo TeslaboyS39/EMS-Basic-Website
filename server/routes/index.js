@@ -20,11 +20,13 @@ router.get("/employees/:id", Controller.showOneEmployee);
 
 router.get("/branches", Controller.showAllBranches);
 router.post("/branches", Controller.addBranch);
+router.get("/branches/:id", Controller.showOneBranch);
 router.put("/branches/:id", Controller.editBranch);
 router.delete("/branches/:id", Controller.deleteOneBranch);
 
 router.get("/positions", Controller.showAllPositions);
 router.post("/positions", Controller.addPosition);
+router.get("/positions/:id", Controller.showOnePosition);
 router.put("/positions/:id", Controller.editPosition);
 router.delete("/positions/:id", Controller.deleteOnePosition);
 

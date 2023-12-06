@@ -396,6 +396,44 @@ class Controller {
       next(error);
     }
   }
+
+  static async showOneBranch(req, res, next) {
+    try {
+      const { id } = req.params;
+
+      const branch = await Branch.findByPk(id, {
+        include: [User],
+      });
+
+      if (!branch) {
+        throw { name: "branchNotFound" };
+      }
+
+      res.status(200).json(branch);
+    } catch (error) {
+      // console.log(error, '<<<<<<')
+      next(error);
+    }
+  }
+
+  static async showOnePosition(req, res, next) {
+    try {
+      const { id } = req.params;
+
+      const position = await Position.findByPk(id, {
+        include: [User],
+      });
+
+      if (!position) {
+        throw { name: "positionNotFound" };
+      }
+
+      res.status(200).json(position);
+    } catch (error) {
+      // console.log(error, '<<<<<<')
+      next(error);
+    }
+  }
 }
 
 module.exports = Controller;
