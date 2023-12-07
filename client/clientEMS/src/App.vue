@@ -843,7 +843,7 @@ p {
   margin: 20px auto;
   max-width: 600px;
   text-align: center;
-  margin-top: 25vh;
+  margin-top: 3vh;
 }
 
 .dashboard-info {
