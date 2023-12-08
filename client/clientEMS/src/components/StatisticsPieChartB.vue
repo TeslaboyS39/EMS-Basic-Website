@@ -19,7 +19,7 @@ ChartJS.register(
 );
 
 export default {
-    name: 'StatisticsPieChartB',
+    name: 'StatisticsPieChart',
 
     props: {
         chartData: {

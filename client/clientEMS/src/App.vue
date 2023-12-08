@@ -839,22 +839,22 @@ p {
   background-color: rgba(219, 212, 212, 0.7);
   border-radius: 8px;
   box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
-  padding: 20px;
+  padding: 10px;
   margin: 20px auto;
-  max-width: 740px;
+  max-width: 640px;
   text-align: center;
-  margin-top: 3vh;
+  margin-top: 1vh;
 }
 
 .dashboard-info {
   display: flex;
   justify-content: space-between;
-  margin-top: 20px;
+  margin-top: 10px;
 }
 
 .dashboard-item {
   flex: 1;
-  padding: 20px;
+  padding: 10px;
   background-color: #007bff;
   color: #fff;
   border-radius: 8px;

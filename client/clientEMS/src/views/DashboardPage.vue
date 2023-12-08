@@ -66,8 +66,8 @@ export default {
 
 <template>
     <section v-if="currentPage === 'dashboard'" id="dashboard-section">
-      <div class="outer-section pb-1">
-        <div class="dashboard-section">
+      <div class="outer-section">
+        <div class="dashboard-section pb-3">
           <h2>Dashboard</h2>
           <hr>
           <div class="dashboard-info">
@@ -84,9 +84,9 @@ export default {
               <p>{{ positions.length }}</p>
             </div>
           </div>
-          <h2 class="mt-3">Statistics</h2>
+          <h2 class="mt-2">Statistics</h2>
           <hr>
-          <div class="dashboard-item mt-4 bg-white" style="width: 700px; height: 300px; display: flex; justify-content: center;">
+          <div class="dashboard-item mt-3 bg-white" style="width: 620px; height: 280px; display: flex; justify-content: center;">
             <StatisticsPieChartA :chartData="statisticsPieChartDataA" :chartOptions="statisticsPieChartOptionsB" />
             <StatisticsPieChartB :chartData="statisticsPieChartDataB" :chartOptions="statisticsPieChartOptionsB" />
           </div>
