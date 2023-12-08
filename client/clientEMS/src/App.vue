@@ -841,7 +841,7 @@ p {
   box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
   padding: 20px;
   margin: 20px auto;
-  max-width: 600px;
+  max-width: 740px;
   text-align: center;
   margin-top: 3vh;
 }
