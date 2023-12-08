@@ -773,8 +773,8 @@ p {
 
 .logo-img {
   height: 50px; 
-  margin-right: 5px; 
-  margin-left: 5px;
+  margin-right: 2px; 
+  margin-left: 2px;
   border-radius: 5px;
 }
 
@@ -843,7 +843,7 @@ p {
   margin: 20px auto;
   max-width: 640px;
   text-align: center;
-  margin-top: 1vh;
+  margin-top: 1.85vh;
 }
 
 .dashboard-info {
@@ -1151,7 +1151,7 @@ p {
 }
 
 .main-container {
-  background-image: url('https://wallpaperbat.com/img/704147-website-wallpaper-top-free-website-background.png');
+  background-image: url('../src/assets/704147-website-wallpaper-top-free-website-background.png');
   background-repeat: no-repeat;
   background-attachment: fixed;
   background-size: cover;

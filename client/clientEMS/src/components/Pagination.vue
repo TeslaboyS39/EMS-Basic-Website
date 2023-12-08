@@ -30,11 +30,11 @@ export default {
 
 <template>
     <div class="pagination">
-      <button @click="goToPage(currentPage - 1)" :disabled="currentPage === 1">Previous</button>
+      <button @click="goToPage(currentPage - 1)" :disabled="currentPage === 1" class="btn btn-secondary">Previous</button>
       <span v-for="page in visiblePages" :key="page">
-        <button @click="goToPage(page)" :class="{ 'pagination-active': currentPage === page }">{{ page }}</button>
+        <button @click="goToPage(page)" :class="{ 'pagination-active': currentPage === page }" class="btn btn-dark">{{ page }}</button>
       </span>
-      <button @click="goToPage(currentPage + 1)" :disabled="currentPage === totalPages">Next</button>
+      <button @click="goToPage(currentPage + 1)" :disabled="currentPage === totalPages" class="btn btn-secondary">Next</button>
     </div>
 </template>
 

@@ -1,5 +1,5 @@
 <script>
-import TableRow from "../components/TableRow.vue";
+import TableRow from "../components/tablerow.vue";
 import ReusableButton from "../components/ReusableButton.vue";
 import Pagination from "../components/Pagination.vue";
 
@@ -12,17 +12,40 @@ export default{
     return {
       currentPageNumber: 1,
       employeesPerPage: 7,
+      search: '',
+      isSearching: false,
     };
+  },
+  watch: {
+    search() {
+      this.isSearching = false;
+    }
   },
   computed: {
     slicedEmployees() {
-      const start = (this.currentPageNumber - 1) * this.employeesPerPage;
-      const end = start + this.employeesPerPage;
-      return this.employees.slice(start, end);
+      const start = (this.currentPageNumber - 1) * this.employeesPerPage
+      return this.employees.slice(start, start + this.employeesPerPage)
     },
     totalPages() {
       return Math.ceil(this.employees.length / this.employeesPerPage);
-    }
+    },
+    filteredEmployees() {
+      if (!this.isSearching) {
+        return this.slicedEmployees;
+      }
+
+      const results = [];
+
+      this.employees.forEach((employee) => {
+        if (employee.fullName.toLowerCase().includes(this.search)) {
+          results.push(employee);
+        } else if (employee.fullName.includes(this.search)) {
+          results.push(employee);
+        }
+      });
+
+      return results;
+    },
   },
   methods: {
     editEmployee(employeeId) {
@@ -36,10 +59,14 @@ export default{
     },
     handlePageChange(page) {
       this.currentPageNumber = page;
+      this.isSearching = false;
     },
     getRealIndex(indexOnPage) {
       return (this.currentPageNumber - 1) * this.employeesPerPage + indexOnPage;
-    }    
+    },
+    searchEmployees() {
+      this.isSearching = true;
+    },    
   }
 };
 </script>
@@ -49,6 +76,10 @@ export default{
     <div class="employee-collection">
       <div class="header-wrapper">
         <h2 style="color: azure;">Employees List</h2>
+        <div class="search-wrapper">
+          <input class="searchBar mb-3 rounded" type="text" v-model="search" placeholder="Find employee..." />
+          <button class="btn btn-primary searchButton" @click="searchEmployees">Search</button>
+        </div>
         <ReusableButton @click="addEmployee" text="Add Employee" type="button"/>
       </div>
       
@@ -70,7 +101,7 @@ export default{
           </thead>
           <tbody>
             <table-row
-                v-for="(employee, index) in slicedEmployees"
+                v-for="(employee, index) in filteredEmployees"
                 :key="employee.id"
                 :index="getRealIndex(index)"
                 :employee="employee"
@@ -95,6 +126,23 @@ export default{
 
 .table th {
   white-space: nowrap;  /* agar kontennya tidak memisahkan baris jika terlalu panjang */
+}
+
+.header-wrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.search-wrapper {
+  display: flex;
+  align-items: baseline;
+}
+
+.searchBar {
+  margin-right: 8px; /* Atur margin agar input dan tombol tidak terlalu rapat */
+  width: 35vh;
+  height: 5.5vh;
 }
 
 </style>
