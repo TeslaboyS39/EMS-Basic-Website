@@ -118,6 +118,9 @@ export default {
     switchToLogin() {
       this.currentPage = "login";
     },
+    switchToDashboard() {
+      this.currentPage = "dashboard";
+    },
     async changePage(page) {
       this.currentPage = page;
     },
@@ -343,8 +346,8 @@ export default {
         console.log(response);
 
         if (response.status === 201) {
-          this.switchToLogin();
-          Swal.fire("Registration Success!", "Now you're able to sign in.", "success");
+          this.switchToDashboard();
+          Swal.fire("Registration Success!", "Now that account is able to sign in.", "success");
         }
       } catch (error) {
         console.log(error);
@@ -612,7 +615,7 @@ export default {
     doLogout() {
       localStorage.removeItem('access_token')
       localStorage.removeItem('fullName')
-      this.currentPage = "register"
+      this.currentPage = "login"
       this.navStatus = 'disabled'
       this.fullName = ', welcome to EMS';
     },
@@ -626,8 +629,9 @@ export default {
     this.fetchDataBranches()
     this.fetchDataPositions()
   } else {
-    this.currentPage = 'register'
-    this.fullName = ', welcome to EMS'      
+    this.currentPage = 'login'
+    this.fullName = ', welcome to EMS'
+    this.navStatus = 'disabled';      
   }
   }
 }
@@ -644,7 +648,7 @@ export default {
     <!-- REGISTER FORM SECTION -->
     <RegisterPage v-if="currentPage === 'register'" 
     @doRegister="doRegister" 
-    @switchToLogin="switchToLogin"
+    @switchToDashboard="switchToDashboard"
     />
     <!-- END REGISTER FORM SECTION -->
 
@@ -760,8 +764,9 @@ p {
   margin: 0;
 }
 
-.nav-link.active {
+.navbar .navbar-nav .nav-link.active.bold-text {
   font-weight: bold; 
+  color: rgb(105, 105, 209);
 }
 
 .navbar-brand {
@@ -812,7 +817,7 @@ p {
 .register-container input,
 .login-container input,
 .register-container select {
-  margin-bottom: 10px;
+  margin-bottom: 2vh;
   padding: 10px;
   border: 1px solid #ccc;
   border-radius: 4px;
