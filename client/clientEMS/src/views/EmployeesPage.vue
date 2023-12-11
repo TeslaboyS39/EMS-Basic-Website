@@ -2,11 +2,12 @@
 import TableRow from "../components/tablerow.vue";
 import ReusableButton from "../components/ReusableButton.vue";
 import Pagination from "../components/Pagination.vue";
+import EmployeeModal from '../components/EmployeeModal.vue'
 
 export default{
   props: ['currentPage', 'employees'],
   components: {
-    TableRow,ReusableButton, Pagination
+    TableRow,ReusableButton, Pagination, EmployeeModal
   },
   data() {
     return {
@@ -14,6 +15,8 @@ export default{
       employeesPerPage: 7,
       search: '',
       isSearching: false,
+      selectedEmployee: null,
+      isModalVisible: false
     };
   },
   watch: {
@@ -66,7 +69,11 @@ export default{
     },
     searchEmployees() {
       this.isSearching = true;
-    },    
+    },   
+    showModal(employee) {
+      this.selectedEmployee = employee  
+      this.isModalVisible = true
+    } 
   }
 };
 </script>
@@ -98,6 +105,11 @@ export default{
               <th class="table-header">Status</th>
               <th class="table-header"></th>
             </tr>
+            <employee-modal 
+              :employee="selectedEmployee"
+              v-if="isModalVisible"
+              @close="isModalVisible = false"
+            />
           </thead>
           <tbody>
             <table-row
@@ -107,6 +119,7 @@ export default{
                 :employee="employee"
                 @editEmployee="editEmployee"
                 @update-employee-status="updateEmployeeStatus"
+                @show-modal="showModal" 
             />
           </tbody>
       </table>

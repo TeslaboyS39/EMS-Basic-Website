@@ -14,6 +14,9 @@ export default {
     },
     updateEmployeeStatus(employee) {
       this.$emit('update-employee-status', employee);
+    },
+    showModal() {
+      this.$emit('show-modal', this.employee) 
     }
   },
   computed: {
@@ -33,7 +36,9 @@ export default {
 <template>
   <tr>
     <td id="td-row">{{index + 1}}</td>
-    <td id="td-row">{{employee.fullName}}</td>
+    <td id="td-row" @click="showModal" style="cursor: pointer;">
+      {{employee.fullName}} 
+    </td>
     <td id="td-row">{{employee.email}}</td>
     <td id="td-row">{{employee.Branch.name}}</td>
     <td id="td-row">{{employee.Position.name}}</td>
@@ -54,7 +59,8 @@ export default {
 </template>
 
 <style>
-#td-row{
-  background-color: rgba(174, 172, 172, 0.8);
+tr:hover {
+  background-color: rgba(178, 173, 173, 0.8); /* Warna latar belakang saat hover */
+  transition: background-color 0.5s ease; /* Efek transisi saat mengganti warna latar belakang */
 }
 </style>
