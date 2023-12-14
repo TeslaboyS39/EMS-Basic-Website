@@ -7,5 +7,41 @@
     "phoneNumber": "081234567890",
     "address": "Jl. Administrator No. 88",
     "npk": "6969420"
+  },
+  {
+    "fullName": "Paul Allen",
+    "email": "americanp@gmail.com",
+    "password": "abc123",
+    "role": "adminHR",
+    "phoneNumber": "087777777777",
+    "address": "Earth",
+    "npk": "123456"
+  },
+  {
+    "fullName": "admin 1",
+    "email": "admin1@gmail.com",
+    "password": "abc123",
+    "role": "adminHR",
+    "phoneNumber": "082222222222",
+    "address": "Jl 2 nomor 2",
+    "npk": "420420"
+  },
+  {
+    "fullName": "Alexios of Sparta",
+    "email": "alexios@gmail.com",
+    "password": "abc123",
+    "role": "adminHR",
+    "phoneNumber": "089999999999",
+    "address": "Lakonia, Sparta, Greece",
+    "npk": "111111"
+  },
+  {
+    "fullName": "Kassandra of Sparta",
+    "email": "kassandra@gmail.com",
+    "password": "abc123",
+    "role": "adminHR",
+    "phoneNumber": "081111111111",
+    "address": "Lakonia, Sparta, Greece",
+    "npk": "999999"
   }
 ]

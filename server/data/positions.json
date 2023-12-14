@@ -3,9 +3,6 @@
     "name": "Customer Service"
   },
   {
-    "name": "Mortgage Marketing Staff"
-  },
-  {
     "name": "Software Developer"
   },
   {
@@ -22,5 +19,11 @@
   },
   {
     "name": "Driver"
+  },
+  {
+    "name": "Cleaning Service"
+  },
+  {
+    "name": "Marketing Staff"
   }
 ]

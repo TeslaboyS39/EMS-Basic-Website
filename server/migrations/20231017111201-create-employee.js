@@ -75,6 +75,24 @@ module.exports = {
       employeeStatus: {
         type: Sequelize.STRING,
       },
+      kpi: {
+        type: Sequelize.STRING,
+      },
+      bankAccNum: {
+        type: Sequelize.STRING,
+      },
+      photo: {
+        type: Sequelize.TEXT,
+      },
+      leaveQuota: {
+        type: Sequelize.STRING,
+      },
+      alphaQuota: {
+        type: Sequelize.STRING,
+      },
+      warningLetter: {
+        type: Sequelize.STRING,
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE,

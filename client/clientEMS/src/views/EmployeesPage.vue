@@ -73,7 +73,7 @@ export default{
     showModal(employee) {
       this.selectedEmployee = employee  
       this.isModalVisible = true
-    } 
+    }
   }
 };
 </script>

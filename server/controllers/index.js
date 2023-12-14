@@ -1,4 +1,11 @@
-const { User, Branch, Position, Employee, sequelize } = require("../models");
+const {
+  User,
+  Branch,
+  Position,
+  Employee,
+  Log,
+  sequelize,
+} = require("../models");
 const { QueryTypes, Op } = require("sequelize");
 const { comparePasswords } = require("../helpers/bcrypt");
 const { createToken } = require("../helpers/jwt");
@@ -17,9 +24,16 @@ class Controller {
         npk,
       });
 
+      let description = `new admin HR with id ${user.id} created`;
+      const log = await Log.create({
+        title: user.fullName,
+        description,
+        updatedBy: req.user.fullName,
+      });
+
       res.status(201).json({ message: `User with id ${user.id} is created` });
     } catch (error) {
-      // console.log(error);
+      console.log(error, "<<<error add employee");
       next(error);
     }
   }
@@ -133,6 +147,8 @@ class Controller {
         endContractDate,
         salary,
         employmentStatus,
+        bankAccNum,
+        photo,
       } = req.body;
 
       const branch = await Branch.findByPk(BranchId);
@@ -155,6 +171,15 @@ class Controller {
         endContractDate,
         salary,
         employmentStatus,
+        bankAccNum,
+        photo,
+      });
+
+      let description = `new Employee with id ${newEmployee.id} created`;
+      const log = await Log.create({
+        title: newEmployee.fullName,
+        description,
+        updatedBy: req.user.fullName,
       });
 
       res.status(201).json({
@@ -212,6 +237,12 @@ class Controller {
         endContractDate,
         salary,
         employmentStatus,
+        kpi,
+        bankAccNum,
+        photo,
+        leaveQuota,
+        alphaQuota,
+        warningLetter,
       } = req.body;
       const employee = await Employee.findByPk(id);
 
@@ -227,6 +258,12 @@ class Controller {
       employee.endContractDate = endContractDate;
       employee.salary = salary;
       employee.employmentStatus = employmentStatus;
+      employee.kpi = kpi;
+      employee.bankAccNum = bankAccNum;
+      employee.photo = photo;
+      employee.leaveQuota = leaveQuota;
+      employee.alphaQuota = alphaQuota;
+      employee.warningLetter = warningLetter;
 
       await employee.save();
 
@@ -431,6 +468,32 @@ class Controller {
       res.status(200).json(position);
     } catch (error) {
       // console.log(error, '<<<<<<')
+      next(error);
+    }
+  }
+
+  static async showAllLogs(req, res, next) {
+    try {
+      const logs = await Log.findAll({
+        order: [["id", "DESC"]],
+      });
+
+      res.status(200).json(logs);
+    } catch (error) {
+      console.log(error, "<<< Log's error here");
+      next(error);
+    }
+  }
+
+  static async showAllUsers(req, res, next) {
+    try {
+      const users = await User.findAll({
+        order: [["id", "DESC"]],
+      });
+
+      res.status(200).json(users);
+    } catch (error) {
+      console.log(error, "<<< User's error here");
       next(error);
     }
   }

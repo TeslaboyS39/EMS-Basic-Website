@@ -8,11 +8,13 @@ router.get("/", function (req, res) {
   res.status(200).json({ message: "Hello World" });
 });
 
-router.post("/register", Controller.register);
 router.post("/login", Controller.login);
+router.get("/logs", Controller.showAllLogs);
+router.get("/users", Controller.showAllUsers);
 
 // middleware
 router.use(authentication); //proses ini wajib dilewati
+router.post("/register", Controller.register);
 
 router.get("/employees", Controller.showAllEmployees);
 router.post("/employees", Controller.addEmployee);

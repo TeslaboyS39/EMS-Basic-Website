@@ -24,7 +24,7 @@ export default {
     },
     getEmployeePhotoPath() {
       // Use the employee's photo if available, otherwise fallback to the default photo
-      return this.employee.photo ? this.employee.photo : Photo;
+      return this.employee.photo && this.employee.photo !== 'N/A' ? this.employee.photo : Photo;
     },
   }
 }
@@ -38,16 +38,26 @@ export default {
         </div>
   
         <div class="right-section">
-          <h3>{{ employee.fullName }}</h3>
+          <div class="header-section">
+          <div>
+            <h3>{{ employee.fullName }} </h3>
+          </div>
+          <div>
+            <h5 style="margin-right: 5vh; background-color: rgb(172, 172, 171); border-radius: 1vh; padding: 1vh;">KPI = {{ employee.kpi }}</h5>
+          </div>
+        </div>
           <hr>
-          <h5>Email: {{ employee.email }}</h5>
-          <h5>Position: {{ employee.Position.name }}</h5>
-          <h5>Branch: {{ employee.Branch.name }}</h5>
-          <h5>Employment Status: {{ employee.employmentStatus }}</h5>
-          <h5>Salary: {{ formattedSalary }}</h5>
-          <h5>Join Date: {{ formattedStartContractDate }}</h5>
-          <h5>Renewal Employee Status Date: {{ formattedEndContractDate }}</h5>
-          <!-- other info -->
+          <h5><span style="margin-right: 34.5vh;">Email</span>: {{ employee.email }}</h5>
+          <h5><span style="margin-right: 31vh;">Position</span>: {{ employee.Position.name }}</h5>
+          <h5><span style="margin-right: 32.5vh;">Branch</span>: {{ employee.Branch.name }}</h5>
+          <h5><span style="margin-right: 15.5vh;">Employment Status</span>: {{ employee.employmentStatus }}</h5>
+          <h5><span style="margin-right: 33.6vh;">Salary</span>: {{ formattedSalary }}</h5>
+          <h5><span style="margin-right: 29.3vh;">Join Date</span>: {{ formattedStartContractDate }}</h5>
+          <h5><span style="margin-right: 14.2vh;">Renewal Status Date</span>: {{ formattedEndContractDate }}</h5>
+          <h5><span style="margin-right: 25vh;">Leave Quota</span>: {{ employee.leaveQuota }}</h5>
+          <h5><span style="margin-right: 5vh;">Alpha Qty before Dismissal</span>: {{ employee.alphaQuota }}</h5>
+          <h5><span style="margin-right: 21.7vh;">Warning Letter</span>: {{ employee.warningLetter }}</h5>
+          <h5><span style="margin-right: 23.2vh;">Bank Account</span>: {{ employee.bankAccNum}}</h5>
   
           <button class="btn btn-primary" @click="close">Close</button>
         </div>
@@ -89,23 +99,36 @@ export default {
     margin-top: 3vh;
     display: flex;
     flex-direction: column; 
+    flex: 1
 }
 
 .left-section img {
   width: 50vh;
-  height: 55vh;
+  height: 53vh;
   border-radius: 5px;
 }
 
 .right-section h5{
   width: 100%;
   color: black;
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.01rem;
 } 
 
 .right-section button {
   align-self: center;
-  margin-top: 4vh; 
+  margin-top: 2.5vh; 
+  margin-right: 50vh;
   border-radius: 5px;
+}
+
+.right-section .info-item {
+  width: 100%;
+  margin-bottom: 0.5rem;
+}
+
+.header-section {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 </style>

@@ -51,6 +51,10 @@ export default {
         endContractDate: '',
         salary: '',
         employmentStatus: '',
+        bankAccNum: '',
+        kpi: '',
+        photo: '',
+        warningLetter: ''
       },
       inputAddBranch: {
         name: '',
@@ -160,6 +164,10 @@ export default {
             endContractDate: new Date(employeeData.endContractDate).toISOString().split('T')[0],
             salary: employeeData.salary,
             employmentStatus: employeeData.employmentStatus,
+            bankAccNum: employeeData.bankAccNum,
+            kpi: employeeData.kpi,
+            photo: employeeData.photo,
+            warningLetter: employeeData.warningLetter
           };
           this.changePage('editemployee') 
       } catch (error) {
@@ -341,7 +349,10 @@ export default {
         const response = await axios({
           method: 'post',
           url: `${baseUrl}/register`,
-          data: value
+          data: value,
+          headers: {
+            access_token: localStorage.access_token
+          }
         })
         console.log(response);
 

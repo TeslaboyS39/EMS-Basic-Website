@@ -16,7 +16,10 @@ export default {
         JobId: '',
         startContractDate: '',
         endContractDate: '',
-      }
+        employmentStatus: ''
+      },
+      isModalVisible: false,
+      selectedEmployee: null  
     };
   },
   methods: {
@@ -28,7 +31,13 @@ export default {
         }
         // Buat ngirim event dgn data employee yg diisi sama pengguna
         console.log(this.inputEmployee);
-    }
+    },
+    showKpiModal() {
+      this.$emit('show-kpi-modal', this.inputEmployee);
+    },
+    updateEmployeeKpi(kpi) {  
+      this.inputEmployee.kpi = kpi
+    }  
   },
   computed: {
     formatDate() {
@@ -82,8 +91,28 @@ export default {
         <label for="salary">Salary (IDR):</label>
         <input v-model="inputEmployee.salary" type="number" id="salary" name="salary" />
 
+        <label for="bankAccNum">Bank Account:</label>
+        <input v-model="inputEmployee.bankAccNum" type="number" id="bankAccNum" name="bankAccNum" />
+
+        <div class="header-section-kpi">
+          <label for="kpi">Key Performances Index (KPI):</label>
+          <h4 class="calc-button" title="KPI Calculator" @click="showKpiModal" style="cursor: pointer; margin-left: 2vh; margin-bottom: 2vh; color: orange; font-size: 5.5vh;">🖩</h4>
+        </div>
+        <input v-model="inputEmployee.kpi" type="number" min="0" step="any" id="kpi" name="kpi" placeholder="Leave it empty for add new employee"/>
+
+        <label for="photo">Profile Photo (URL):</label>
+        <input v-model="inputEmployee.photo" type="text" id="photo" name="photo" />
+
+        <label for="warningLetter">Warning Letter:</label>
+        <input v-model="inputEmployee.warningLetter" type="number" id="warningLetter" name="warningLetter" min="0" max="2" />
+
         <label for="employmentStatus">Employment Status:</label>
-        <input v-model="inputEmployee.employmentStatus" type="text" id="employmentStatus" name="employmentStatus" />
+        <select v-model="inputEmployee.employmentStatus" id="employmentStatus" name="employmentStatus">
+          <option value="Full-time">Full-time</option>
+          <option value="Probation">Probation</option>
+          <option value="Contract">Contract</option>
+          <option value="Internship">Internship</option>
+        </select>
         
         <ReusableButton type="submit" :text="buttonText"/>
       </form>
@@ -92,7 +121,33 @@ export default {
 </template>
 
 <style>
-#salary{
+#salary  {
   margin-bottom: 1em;
 }
+
+#bankAccNum{
+  margin-bottom: 1em;
+}
+
+#kpi{
+  margin-bottom: 1em;
+}
+
+.calc-button{
+  background-color: transparent;
+  cursor: pointer;
+}
+
+.header-section-kpi {
+    display: flex;
+    justify-content: start;
+    align-items:center;
+}
+
+.header-section-kpi h4:hover {
+  color: purple; /* Ubah warna saat dihover */
+  transform: scale(1.2); /* Ubah ukuran saat dihover */
+  transition: color 0.2s ease, transform 0.2s ease; /* Animasi perubahan warna dan ukuran */
+}
+
 </style>

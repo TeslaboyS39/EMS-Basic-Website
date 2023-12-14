@@ -49,6 +49,12 @@ module.exports = (sequelize, DataTypes) => {
       salary: DataTypes.INTEGER,
       employmentStatus: DataTypes.STRING,
       employeeStatus: DataTypes.STRING,
+      kpi: DataTypes.INTEGER,
+      bankAccNum: DataTypes.STRING,
+      photo: DataTypes.TEXT,
+      leaveQuota: DataTypes.INTEGER,
+      alphaQuota: DataTypes.INTEGER,
+      warningLetter: DataTypes.INTEGER,
     },
     {
       sequelize,
@@ -57,6 +63,10 @@ module.exports = (sequelize, DataTypes) => {
   );
   Employee.beforeCreate((Employee) => {
     Employee.employeeStatus = "Active";
+    Employee.kpi = 0;
+    Employee.leaveQuota = 12;
+    Employee.alphaQuota = 5;
+    Employee.warningLetter = 0;
   });
   Employee.beforeSave(async (employee, options) => {
     const today = new Date();
@@ -76,11 +86,15 @@ module.exports = (sequelize, DataTypes) => {
     const timeDiff = endContractDate - today;
     const daysDiff = Math.ceil(timeDiff / (1000 * 3600 * 24)); // Menghitung selisih dalam hari
 
-    if (employee.employeeStatus !== "Resigned/Fired") {
-      if (daysDiff <= 60) {
-        employee.employeeStatus = "Warning";
-      } else {
-        employee.employeeStatus = "Active";
+    if (employee.warningLetter === 2) {
+      employee.employeeStatus = "Resigned/Fired";
+    } else if (employee.warningLetter !== 2) {
+      if (employee.employeeStatus !== "Resigned/Fired") {
+        if (daysDiff <= 60) {
+          employee.employeeStatus = "Warning";
+        } else {
+          employee.employeeStatus = "Active";
+        }
       }
     }
   });
