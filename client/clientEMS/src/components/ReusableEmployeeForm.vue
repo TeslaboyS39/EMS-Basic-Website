@@ -89,10 +89,10 @@ export default {
         </div>
 
         <label for="salary">Salary (IDR):</label>
-        <input v-model="inputEmployee.salary" type="number" id="salary" name="salary" />
+        <input v-model="inputEmployee.salary" type="number" id="salary" name="salary" placeholder="Base salary(excluded bonus and other allowances)"/>
 
         <label for="bankAccNum">Bank Account:</label>
-        <input v-model="inputEmployee.bankAccNum" type="number" id="bankAccNum" name="bankAccNum" />
+        <input v-model="inputEmployee.bankAccNum" type="number" id="bankAccNum" name="bankAccNum" placeholder="Make sure to type it right, for payroll purpose"/>
 
         <div class="header-section-kpi">
           <label for="kpi">Key Performances Index (KPI):</label>
@@ -104,10 +104,11 @@ export default {
         <input v-model="inputEmployee.photo" type="text" id="photo" name="photo" />
 
         <label for="warningLetter">Warning Letter:</label>
-        <input v-model="inputEmployee.warningLetter" type="number" id="warningLetter" name="warningLetter" min="0" max="2" />
+        <input v-model="inputEmployee.warningLetter" type="number" id="warningLetter" name="warningLetter" min="0" max="2" placeholder="Leave it empty for add new employee"/>
 
         <label for="employmentStatus">Employment Status:</label>
         <select v-model="inputEmployee.employmentStatus" id="employmentStatus" name="employmentStatus">
+          <option value="" disabled selected>Select Employment Status</option>
           <option value="Full-time">Full-time</option>
           <option value="Probation">Probation</option>
           <option value="Contract">Contract</option>
@@ -126,13 +127,20 @@ export default {
 }
 
 #bankAccNum{
-  margin-bottom: 1em;
+  margin-bottom: 0.5em;
 }
 
 #kpi{
   margin-bottom: 1em;
 }
 
+#warningLetter{
+  margin-bottom: 1em;
+}
+
+#endContractDate{
+  margin-bottom: 1em;
+}
 .calc-button{
   background-color: transparent;
   cursor: pointer;

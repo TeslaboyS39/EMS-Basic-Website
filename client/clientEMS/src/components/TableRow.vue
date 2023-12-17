@@ -17,7 +17,11 @@ export default {
     },
     showModal() {
       this.$emit('show-modal', this.employee) 
-    }
+    },
+    deleteEmployeeById() {            
+      console.log('Delete Employee button clicked', this.employee.id);
+      this.$emit('delete-employee', this.employee.id)
+    },
   },
   computed: {
     formattedStartContractDate() {
@@ -55,6 +59,7 @@ export default {
     </select>
     </td>
     <td id="td-row"><button class="edit-button" @click="editEmployee">✏️</button></td>
+    <td id="td-row"><button class="delete-button-2" @click="deleteEmployeeById(employee.id)">⋮</button></td>
   </tr>
 </template>
 

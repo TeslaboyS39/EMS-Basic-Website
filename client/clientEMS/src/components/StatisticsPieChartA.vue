@@ -20,7 +20,6 @@ ChartJS.register(
 
 export default {
     name: 'StatisticsPieChartA',
-
     props: {
         chartData: {
             type: Object,
@@ -32,25 +31,8 @@ export default {
             default: () => { }
         }
     },
-
     components: {
         Pie
-    },
-
-    data() {
-
-        return {
-            chartOptions: {
-                layout: {
-                    padding: {
-                        bottom: 40,
-                        top: 0,
-                        left: 10,
-                        right: 0
-                    }
-                },
-            }
-        }
     }
 }
 </script>

@@ -14,12 +14,13 @@ import EditBranchForm from "./views/EditBranchForm.vue"
 import EditPositionForm from "./views/EditPositionForm.vue"
 import LoginPage from "./views/LoginPage.vue"
 import RegisterPage from "./views/RegisterPage.vue"
+import LogsPage from "./views/LogsPage.vue"
 // const baseUrl = 'https://client-project-01.fatahillah.shop' // for production
 const baseUrl = 'http://localhost:3000' // for testing use
 
 export default {
     components: {
-      Navbar, DashboardPage, EmployeesPage, BranchesPage, PositionsPage, AddEmployeeForm, AddBranchForm, AddPositionForm, EditEmployeeForm, EditBranchForm, EditPositionForm, LoginPage, RegisterPage
+      Navbar, DashboardPage, EmployeesPage, BranchesPage, PositionsPage, AddEmployeeForm, AddBranchForm, AddPositionForm, EditEmployeeForm, EditBranchForm, EditPositionForm, LoginPage, RegisterPage, LogsPage
     },
     data() {
     return {
@@ -42,6 +43,7 @@ export default {
       employees: [],
       branches: [],
       positions: [],
+      logs: [],
       inputAddEmployee: {
         fullName: '',
         email: '',
@@ -115,6 +117,20 @@ export default {
         
         // console.log(data);
         this.positions = data
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    async fetchDataLogs() {
+      try {
+        // console.log('data fetched succesfully')
+        const { data } = await axios ({
+          method: 'get',
+          url: `${baseUrl}/logs`,
+        })
+        
+        // console.log(data);
+        this.logs = data
       } catch (error) {
         console.log(error);
       }
@@ -287,6 +303,8 @@ export default {
         })
         console.log(data);
         this.fetchDataBranches();
+        this.fetchDataLogs();
+        this.fetchDataEmployees();
         this.currentPage='showbranches'
         Swal.fire(
           'Edit branch success!',
@@ -322,6 +340,8 @@ export default {
         })
         console.log(data);
         this.fetchDataPositions();
+        this.fetchDataLogs();
+        this.fetchDataEmployees();
         this.currentPage='showpositions'
         Swal.fire(
           'Edit position success!',
@@ -354,7 +374,8 @@ export default {
             access_token: localStorage.access_token
           }
         })
-        console.log(response);
+        console.log(response);        
+        this.fetchDataLogs();
 
         if (response.status === 201) {
           this.switchToDashboard();
@@ -384,7 +405,8 @@ export default {
         this.fullName = localStorage.getItem('fullName');        
         this.fetchDataEmployees()
         this.fetchDataBranches()
-        this.fetchDataPositions()
+        this.fetchDataPositions()        
+        this.fetchDataLogs();
 
         Swal.fire("Login Success!", "Welcome to EMS!", "success");
       } catch (error) {
@@ -413,7 +435,8 @@ export default {
             salary: '',
             employmentStatus: ''
           };
-          this.fetchDataEmployees();
+          this.fetchDataEmployees();          
+          this.fetchDataLogs();
           this.changePage('showemployees');
           Swal.fire(
                 'Add employee success!',
@@ -496,6 +519,7 @@ export default {
 
         if (response.status === 200) {
           this.fetchDataBranches();
+          this.fetchDataLogs();
           Swal.fire(
             'Delete branch success!',
             'The branch has been deleted from the database',
@@ -523,6 +547,7 @@ export default {
 
         if (response.status === 200) {
           this.fetchDataPositions();
+          this.fetchDataLogs();
           Swal.fire(
             'Delete position success!',
             'The position has been deleted from the database',
@@ -535,6 +560,47 @@ export default {
           icon: 'error',
           title: 'Oops...',
           text: 'Forbidden access to delete this position!',
+        });
+      }
+    },
+    async deleteEmployeeById(employeeId) {
+      try {
+        const result = await Swal.fire({
+          title: 'Are you sure?',
+          text: 'You won\'t be able to revert this!',
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#3085d6',
+          cancelButtonColor: '#d33',
+          confirmButtonText: 'Yes, delete it!',
+          cancelButtonText: 'Cancel'
+        });
+
+        if (result.isConfirmed) {
+          // Jika pengguna menekan tombol "Yes"
+          const response = await axios({
+            method: 'delete',
+            url: `${baseUrl}/employees/${employeeId}`,
+            headers: {
+              access_token: localStorage.access_token,
+            },
+          });
+
+          if (response.status === 200) {
+            this.fetchDataEmployees();
+            Swal.fire(
+              'Deleted!',
+              'The employee has been deleted.',
+              'success'
+            );
+          }
+        }
+      } catch (error) {
+        console.error(error);
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: 'Forbidden access to delete this employee!',
         });
       }
     },
@@ -638,7 +704,8 @@ export default {
     this.navStatus = 'active'
     this.fetchDataEmployees()
     this.fetchDataBranches()
-    this.fetchDataPositions()
+    this.fetchDataPositions()    
+    this.fetchDataLogs();
   } else {
     this.currentPage = 'login'
     this.fullName = ', welcome to EMS'
@@ -681,9 +748,11 @@ export default {
     v-if="currentPage === 'showemployees'"
     :employees="employees"
     :currentPage="currentPage"
+    :deleteEmployeeById="deleteEmployeeById"
     @editEmployee="editEmployee"
     @addEmployee="changePage('addemployee')"
     @update-employee-status="updateEmployeeStatus"
+    @delete-employee="deleteEmployeeById"
   />
   <!-- END EMPLOYEES SECTION -->
 
@@ -765,6 +834,14 @@ export default {
     @editPositionForm="editPositionForm" 
   />
   <!-- END EDIT POSITION FORM SECTION -->
+
+  <!-- LOGS SECTION -->
+  <LogsPage 
+    v-if="currentPage === 'showlogs'" 
+    :logs="logs" 
+    :currentPage="currentPage" 
+  />
+  <!-- END LOGS SECTION -->
 </div>
 </template>
 
@@ -860,6 +937,26 @@ p {
   max-width: 640px;
   text-align: center;
   margin-top: 1.85vh;
+}
+
+.dashboard-section-b {
+  /* background-color: #dbd4d4; */
+  background-color: rgba(219, 212, 212, 0.7);
+  border-radius: 8px;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 10px;
+  margin: 20px auto;
+  max-width: 640px;
+  text-align: center;
+  margin-top: 1.85vh;
+}
+
+.outer-section {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  max-width: 1150px; /* Adjust the max-width as needed */
+  margin: 0 auto; /* Center the container itself */
 }
 
 .dashboard-info {
@@ -1184,6 +1281,16 @@ p {
   cursor: pointer;
 }
 
+.delete-button-2 {
+  background-color: transparent; /* Warna merah */
+  color: white;
+  margin-left: 5vh;
+  border: none;
+  padding: 0px;
+  margin-left: 0vh;
+  cursor: pointer;
+}
+
 .table-wrapper {
   max-height: calc(70vh - 5px); 
   overflow-y: auto;
@@ -1212,7 +1319,7 @@ p {
 
 .edit-button,
 .delete-button {
-  padding: 6px 10px;
+  padding: 5px 5px;
   background-color: transparent;
   border: none;
   cursor: pointer;
@@ -1226,5 +1333,18 @@ p {
 
 .delete-button:hover {
   color: #ff0000; 
+}
+
+/* menu show logs */
+.table {
+  margin-left: 27px;
+  margin-top: auto;
+  width: 97%;
+}
+
+.log-collection h2 {
+  margin-left: 27px;
+  margin-top: 20px;
+  margin-bottom: 20px;
 }
 </style>

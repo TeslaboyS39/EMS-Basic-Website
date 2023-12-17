@@ -16,7 +16,8 @@ export default{
       search: '',
       isSearching: false,
       selectedEmployee: null,
-      isModalVisible: false
+      isModalVisible: false,
+      hideInactive: false,
     };
   },
   watch: {
@@ -34,15 +35,14 @@ export default{
     },
     filteredEmployees() {
       if (!this.isSearching) {
-        return this.slicedEmployees;
+        return this.slicedEmployees.filter(employee => !this.hideInactive || employee.employeeStatus !== 'Resigned/Fired');
       }
 
       const results = [];
 
       this.employees.forEach((employee) => {
-        if (employee.fullName.toLowerCase().includes(this.search)) {
-          results.push(employee);
-        } else if (employee.fullName.includes(this.search)) {
+        if ((employee.fullName.toLowerCase().includes(this.search) || employee.fullName.includes(this.search)) &&
+            (!this.hideInactive || employee.employeeStatus !== 'Resigned/Fired')) {
           results.push(employee);
         }
       });
@@ -60,6 +60,10 @@ export default{
     addEmployee() {
         this.$emit('addEmployee');
     },
+    deleteEmployeeById(employeeId) {            
+      console.log('Delete Employee button clicked', employeeId);
+      this.$emit('delete-employee', employeeId)
+    },
     handlePageChange(page) {
       this.currentPageNumber = page;
       this.isSearching = false;
@@ -73,7 +77,10 @@ export default{
     showModal(employee) {
       this.selectedEmployee = employee  
       this.isModalVisible = true
-    }
+    },
+    toggleHideInactive() {
+      this.hideInactive = !this.hideInactive;
+    },
   }
 };
 </script>
@@ -86,6 +93,9 @@ export default{
         <div class="search-wrapper">
           <input class="searchBar mb-3 rounded" type="text" v-model="search" placeholder="Find employee..." />
           <button class="btn btn-primary searchButton" @click="searchEmployees">Search</button>
+          <button class="btn btn-secondary" @click="toggleHideInactive">
+            {{ hideInactive ? 'Show All' : 'Hide Inactive' }}
+          </button>
         </div>
         <ReusableButton @click="addEmployee" text="Add Employee" type="button"/>
       </div>
@@ -104,6 +114,7 @@ export default{
               <th class="table-header">Employment Status</th>
               <th class="table-header">Status</th>
               <th class="table-header"></th>
+              <th class="table-header"></th>
             </tr>
             <employee-modal 
               :employee="selectedEmployee"
@@ -120,6 +131,7 @@ export default{
                 @editEmployee="editEmployee"
                 @update-employee-status="updateEmployeeStatus"
                 @show-modal="showModal" 
+                @delete-employee="deleteEmployeeById"
             />
           </tbody>
       </table>

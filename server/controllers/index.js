@@ -214,10 +214,20 @@ class Controller {
 
   static async deleteOneEmployee(req, res, next) {
     try {
+      // Mengambil nama karyawan sebelum dihapus
+      const employeeToDelete = await Employee.findByPk(req.params.id);
+
       await Employee.destroy({ where: { id: req.params.id } });
 
+      let description = `Employee with id ${req.params.id} deleted`;
+      const log = await Log.create({
+        title: employeeToDelete.fullName,
+        description,
+        updatedBy: req.user.fullName,
+      });
+
       res.status(200).json({
-        message: `Employee with id ${req.params.id} deleted succesfully.`,
+        message: `Employee with id ${req.params.id} deleted successfully.`,
       });
     } catch (error) {
       console.log(error);
@@ -313,6 +323,13 @@ class Controller {
         name,
       });
 
+      let description = `new Branch with id ${newBranch.id} created`;
+      const log = await Log.create({
+        title: newBranch.name,
+        description,
+        updatedBy: req.user.fullName,
+      });
+
       res.status(201).json({
         message: `Employee with id ${newBranch.id} has been created`,
         newBranch,
@@ -332,6 +349,13 @@ class Controller {
         name,
       });
 
+      let description = `new Position with id ${newPosition.id} created`;
+      const log = await Log.create({
+        title: newPosition.name,
+        description,
+        updatedBy: req.user.fullName,
+      });
+
       res.status(201).json({
         message: `Employee with id ${newPosition.id} has been created`,
         newPosition,
@@ -344,10 +368,20 @@ class Controller {
 
   static async deleteOneBranch(req, res, next) {
     try {
+      // Mengambil nama cabang sebelum dihapus
+      const branchToDelete = await Branch.findByPk(req.params.id);
+
       await Branch.destroy({ where: { id: req.params.id } });
 
+      let description = `Branch with id ${req.params.id} deleted`;
+      const log = await Log.create({
+        title: branchToDelete.name,
+        description,
+        updatedBy: req.user.fullName,
+      });
+
       res.status(200).json({
-        message: `Branch with id ${req.params.id} deleted succesfully.`,
+        message: `Branch with id ${req.params.id} deleted successfully.`,
       });
     } catch (error) {
       console.log(error);
@@ -357,10 +391,20 @@ class Controller {
 
   static async deleteOnePosition(req, res, next) {
     try {
+      // Mengambil nama posisi sebelum dihapus
+      const positionToDelete = await Position.findByPk(req.params.id);
+
       await Position.destroy({ where: { id: req.params.id } });
 
+      let description = `Position with id ${req.params.id} deleted`;
+      const log = await Log.create({
+        title: positionToDelete.name,
+        description,
+        updatedBy: req.user.fullName,
+      });
+
       res.status(200).json({
-        message: `Position with id ${req.params.id} deleted succesfully.`,
+        message: `Position with id ${req.params.id} deleted successfully.`,
       });
     } catch (error) {
       console.log(error);

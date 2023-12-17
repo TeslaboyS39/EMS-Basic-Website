@@ -20,6 +20,7 @@ export default {
           <a :class="['nav-link', { 'active': currentPage === 'showbranches' }, navStatus, { 'bold-text': currentPage === 'showbranches' }]" @click="changePage('showbranches')" href="#">Branches</a>
           <a :class="['nav-link', { 'active': currentPage === 'showpositions' }, navStatus, { 'bold-text': currentPage === 'showpositions' }]" @click="changePage('showpositions')" href="#">Positions</a>
           <a :class="['nav-link', { 'active': currentPage === 'register' }, navStatus, { 'bold-text': currentPage === 'register' }]" @click="changePage('register')" href="#">Add Admin</a>
+          <a :class="['nav-link', { 'active': currentPage === 'showlogs' }, navStatus, { 'bold-text': currentPage === 'showlogs' }]" @click="changePage('showlogs')" href="#">Logs</a>
         <div class="nav-item d-flex align-items-center" style="margin-left:65vh">
           <p class="mb-0 me-3">Hi <span id="fullName">{{fullName}}</span>!</p>
           <a :class="['nav-link', navStatus]" @click="doLogout()" href="#">Logout</a>
